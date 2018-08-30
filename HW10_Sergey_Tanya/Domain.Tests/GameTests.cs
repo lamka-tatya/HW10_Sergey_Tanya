@@ -11,9 +11,10 @@ namespace Domain.Tests
     public class GameTests
     {
         [Fact]
-        public void GameShouldContainAsManyCardsAsPlayersCount_WhenCreated()
+        public void GameShouldContainAsManyCardsInWorkAsPlayersCount_WhenCreated()
         {
-            var game = new Game(10);
+            var board = new Board();
+            var game = new Game(10, board);
 
             Assert.Equal(10, game.CardsCount(Status.InWork));
         }
