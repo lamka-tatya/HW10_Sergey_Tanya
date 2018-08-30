@@ -20,9 +20,15 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void GameWithoutBoard_DoesNoMakeSense()
+        public void GameWithoutBoard_CanNotBeCreated()
         {
             Assert.Throws<BoardIsNullException>(() => new Game(10, null));
+        }
+
+        [Fact]
+        public void GameWithoutGamers_CanNotBeCreated()
+        {
+            Assert.Throws<PlayersEmptyException>(() => new Game(0, new Board()));
         }
     }
     

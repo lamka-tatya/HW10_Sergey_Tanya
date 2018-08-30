@@ -12,10 +12,14 @@ namespace HW10_Sergey_Tanya
         private IList<Card> _cards = new List<Card>();
         private Board _board;
 
-        public Game(int playersCount, Board board)
+        public Game(uint playersCount, Board board)
         {
             _board = board ?? throw new BoardIsNullException();
 
+            if (playersCount == 0)
+            {
+                throw new PlayersEmptyException();
+            }
 
             for (int i = 0; i < playersCount; i++)
             {
