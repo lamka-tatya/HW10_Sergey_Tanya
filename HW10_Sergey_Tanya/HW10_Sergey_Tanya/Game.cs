@@ -16,20 +16,31 @@ namespace HW10_Sergey_Tanya
         {
             _board = board ?? throw new BoardIsNullException();
 
+
             for (int i = 0; i < playersCount; i++)
             {
                 var player = new Player();
                 _players.Add(player);
 
-                var newCard = _board.GiveNewCard();
-                newCard.MoveNextStatus();
-                _cards.Add(newCard);
+                var card = _board.GiveNewCard();
+                player.Take(card);
+                _cards.Add(card);
             }
+        }
+
+        public IEnumerable<Card> CardsThat(Status inWork)
+        {
+            return _cards.Where(x => x.Status == inWork);
+        }
+
+        public IEnumerable<Player> TakePlayers()
+        {
+            return _players;
         }
 
         public int CardsCount(Status status)
         {
-            return _cards.Count(c => c.Status == status);
+            return CardsThat(status).Count();
         }
     }
 }
