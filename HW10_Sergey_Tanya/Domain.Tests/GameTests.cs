@@ -18,6 +18,13 @@ namespace Domain.Tests
 
             Assert.Equal(10, game.CardsCount(Status.InWork));
         }
+
+        [Fact]
+        public void GameWithoutBoard_DoesNoMakeSense()
+        {
+            Assert.Throws<BoardIsNullException>(() => new Game(10, null));
+        }
     }
+    
 
 }

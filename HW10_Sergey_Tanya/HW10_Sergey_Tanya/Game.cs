@@ -14,7 +14,7 @@ namespace HW10_Sergey_Tanya
 
         public Game(int playersCount, Board board)
         {
-            _board = board;
+            _board = board ?? throw new BoardIsNullException();
 
             for (int i = 0; i < playersCount; i++)
             {
