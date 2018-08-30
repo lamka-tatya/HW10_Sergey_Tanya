@@ -15,8 +15,13 @@ namespace HW10_Sergey_Tanya
             Id = new Guid();
         }
 
-        internal void Take(Card card)
+        public void Take(Card card)
         {
+            if (card.Status != Status.New)
+            {
+                throw new CardStatusIsNotNewException();
+            }
+
             card.AssignTo(this);
             card.MoveNextStatus();
         }

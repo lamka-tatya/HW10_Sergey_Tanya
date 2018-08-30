@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
+    <Compile Include="Exceptions\CardStatusIsNotNewException.cs" />
     <Compile Include="Exceptions\PlayersEmptyException.cs" />
     <Compile Include="Exceptions\BoardIsNullException.cs" />
     <Compile Include="Card.cs" />
