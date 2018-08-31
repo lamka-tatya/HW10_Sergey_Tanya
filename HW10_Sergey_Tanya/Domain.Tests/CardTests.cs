@@ -1,4 +1,5 @@
-﻿using HW10_Sergey_Tanya;
+﻿using Domain.Tests.DSL;
+using HW10_Sergey_Tanya;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,12 +14,21 @@ namespace Domain.Tests
         [Fact]
         public void CardsPlayerIdShouldBeEqualsPlayersId_WhenGameCreatedWithTheOnlyOnePlayer()
         {
-            var board = new Board();
-            var game = new Game(1, board);
+            var game = Builder.CreateGame.Please();
             var player = game.TakePlayers().First();
             var card = game.CardsThat(Status.InWork).First();
 
             Assert.Equal(player.Id, card.PlayerId);
+        }
+
+        [Fact]
+        public void CardShoudBeBlocked_WhenCoinResultIsHead()
+        {
+            var game = Builder.CreateGame.WithHeadCoin().Please();
+
+            game.PlayRound();
+
+            Assert.True(game.CardsThat(Status.InWork).First().IsBlocked);
         }
     }
 }

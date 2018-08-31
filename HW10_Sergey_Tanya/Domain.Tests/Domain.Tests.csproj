@@ -78,6 +78,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardTests.cs" />
+    <Compile Include="DSL\Builder.cs" />
+    <Compile Include="DSL\GameBuilder.cs" />
     <Compile Include="GameTests.cs" />
     <Compile Include="PlayerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

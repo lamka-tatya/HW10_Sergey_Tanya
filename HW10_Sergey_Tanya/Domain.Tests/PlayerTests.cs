@@ -1,4 +1,5 @@
-﻿using HW10_Sergey_Tanya;
+﻿using Domain.Tests.DSL;
+using HW10_Sergey_Tanya;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,11 +24,10 @@ namespace Domain.Tests
         [Fact]
         public void PlayerShouldHaveOneCard_WhenGameStart()
         {
-            var board = new Board();
-            var game = new Game(1, board);
+            var game = Builder.CreateGame.Please();
             var player = game.TakePlayers().First();
 
-            Assert.Equal(1, player.AllCards.Count());
+            Assert.Single(player.AllCards);
         }
     }
 }

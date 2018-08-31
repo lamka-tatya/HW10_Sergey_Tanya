@@ -32,6 +32,11 @@ namespace HW10_Sergey_Tanya
             }
         }
 
+        public void PlayRound()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Card> CardsThat(Status inWork)
         {
             return _cards.Where(x => x.Status == inWork);

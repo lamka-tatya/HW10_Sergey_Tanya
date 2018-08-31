@@ -1,4 +1,5 @@
-﻿using HW10_Sergey_Tanya;
+﻿using Domain.Tests.DSL;
+using HW10_Sergey_Tanya;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,7 @@ namespace Domain.Tests
         [Fact]
         public void GameShouldContainAsManyCardsInWorkAsPlayersCount_WhenCreated()
         {
-            var board = new Board();
-            var game = new Game(10, board);
+            var game = Builder.CreateGame.WithPlayers(10).Please();
 
             Assert.Equal(10, game.CardsCount(Status.InWork));
         }
