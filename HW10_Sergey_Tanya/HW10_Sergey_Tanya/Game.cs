@@ -39,17 +39,7 @@ namespace Domain
         {
             foreach(var player in _players)
             {
-                var coinResult = _coin.Toss();
-
-                if (coinResult == CoinResult.Head)
-                {
-                    var notBlockedCard = player.AllCards.FirstOrDefault(x => !x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
-
-                    if (notBlockedCard != null)
-                    {
-                        notBlockedCard.Block();
-                    }
-                }
+                player.Toss(_coin);
             }
         }
 
