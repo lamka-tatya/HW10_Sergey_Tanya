@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,11 @@ namespace Domain
         private IList<Player> _players = new List<Player>();
         private IList<Card> _cards = new List<Card>();
         private Board _board;
+        private ICoin _coin;
 
-        public Game(uint playersCount, Board board)
+        public Game(uint playersCount, Board board, ICoin coin)
         {
+            _coin = coin; // todo
             _board = board ?? throw new BoardIsNullException();
 
             if (playersCount == 0)
@@ -34,7 +37,20 @@ namespace Domain
 
         public void PlayRound()
         {
-            throw new NotImplementedException();
+            foreach(var player in _players)
+            {
+                var coinResult = _coin.Toss();
+
+                if (coinResult == CoinResult.Head)
+                {
+                    var notBlockedCard = player.AllCards.FirstOrDefault(x => !x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
+
+                    if (notBlockedCard != null)
+                    {
+                        notBlockedCard.Block();
+                    }
+                }
+            }
         }
 
         public IEnumerable<Card> CardsThat(Status inWork)

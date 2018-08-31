@@ -22,5 +22,10 @@ namespace Domain
         {
             PlayerId = player.Id;
         }
+
+        internal void Block()
+        {
+            IsBlocked = true; ;
+        }
     }
 }

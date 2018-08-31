@@ -22,13 +22,13 @@ namespace Domain.Tests
         [Fact]
         public void GameWithoutBoard_CanNotBeCreated()
         {
-            Assert.Throws<BoardIsNullException>(() => new Game(10, null));
+            Assert.Throws<BoardIsNullException>(() => new Game(10, null, new Coin()));
         }
 
         [Fact]
         public void GameWithoutGamers_CanNotBeCreated()
         {
-            Assert.Throws<PlayersEmptyException>(() => new Game(0, new Board()));
+            Assert.Throws<PlayersEmptyException>(() => new Game(0, new Board(), new Coin()));
         }
     }
     
