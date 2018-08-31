@@ -1,5 +1,5 @@
 ﻿using System;
-using HW10_Sergey_Tanya;
+using Domain;
 
 namespace Domain.Tests.DSL
 {

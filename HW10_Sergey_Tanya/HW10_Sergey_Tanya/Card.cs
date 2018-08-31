@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HW10_Sergey_Tanya
+namespace Domain
 {
     public class Card
     {

@@ -1,5 +1,5 @@
 ﻿using Domain.Tests.DSL;
-using HW10_Sergey_Tanya;
+using Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
