@@ -10,5 +10,7 @@ namespace Domain.Tests.DSL
     {
         public static GameBuilder CreateGame => new GameBuilder();
 
+        public static PlayerBuilder CreatePlayer => new PlayerBuilder();
+
     }
 }

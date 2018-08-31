@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Domain;
 using Domain.Interfaces;
 using Moq;
@@ -7,31 +8,41 @@ namespace Domain.Tests.DSL
 {
     public class GameBuilder
     {
-        private Board _board;
-        private uint _playersCount;
-        private Mock<ICoin> _coin;
-        private Mock<Card> _card;
+        private Mock<IBoard> _board = null;
+        private Mock<ICoin> _coin = new Mock<ICoin>();
+        private List<Player> _players = new List<Player>();
 
         public GameBuilder()
         {
-            _coin = new Mock<ICoin>();
         }
 
-        public GameBuilder With(Board board)
+        internal GameBuilder WithSomePlayer()
         {
-            _board = board;
+            _players.Add(new Player());
             return this;
         }
 
-        public GameBuilder With(Mock<Card> card)
+        internal GameBuilder WithOtherSomePlayer()
         {
-            _card = card;
+            return WithSomePlayer();
+        }
+
+        internal GameBuilder And()
+        {
             return this;
         }
 
-        public GameBuilder WithPlayers(uint count)
+        public GameBuilder With(Player player)
         {
-            _playersCount = count;
+            _players.Add(player);
+            return this;
+        }
+
+        public GameBuilder With(ICard card)
+        {
+            _board = new Mock<IBoard>();
+            _board.Setup(b => b.GiveNewCard()).Returns(card);
+
             return this;
         }
 
@@ -50,10 +61,14 @@ namespace Domain.Tests.DSL
 
         public Game Please()
         {
-            return new Game(
-                _playersCount == 0 ? 1 : _playersCount,
-                _board ?? new Board(),
-                _coin.Object);
+            var game = new Game(_board != null ? _board.Object : new Board(), _coin.Object);
+
+            foreach (var player in _players)
+            {
+                game.AddPlayer(player);
+            }
+
+            return game;
         }
 
     }

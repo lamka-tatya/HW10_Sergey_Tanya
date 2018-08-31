@@ -24,8 +24,8 @@ namespace Domain.Tests
         [Fact]
         public void PlayerShouldHaveOneCard_WhenGameStart()
         {
-            var game = Builder.CreateGame.Please();
-            var player = game.TakePlayers().First();
+            var player = Builder.CreatePlayer.Please();
+            var game = Builder.CreateGame.With(player).Please();
 
             Assert.Single(player.AllCards);
         }

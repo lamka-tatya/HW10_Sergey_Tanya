@@ -54,6 +54,8 @@
     <Compile Include="Exceptions\NullBoardException.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Interfaces\IBoard.cs" />
+    <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\ICoin.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -14,27 +14,27 @@ namespace Domain.Tests
         [Fact]
         public void GameShouldContainAsManyCardsInWorkAsPlayersCount_WhenCreated()
         {
-            var game = Builder.CreateGame.WithPlayers(10).Please();
+            var game = Builder
+                .CreateGame
+                .WithSomePlayer()
+                .And()
+                .WithOtherSomePlayer()
+                .Please();
 
-            Assert.Equal(10, game.CardsCount(Status.InWork));
+            Assert.Equal(2, game.CardsCount(Status.InWork));
         }
 
         [Fact]
         public void GameWithoutBoard_CanNotBeCreated()
         {
-            Assert.Throws<NullBoardException>(() => new Game(10, null, new Coin()));
+            Assert.Throws<NullBoardException>(() => new Game(null, new Coin()));
         }
 
-        [Fact]
-        public void GameWithoutGamers_CanNotBeCreated()
-        {
-            Assert.Throws<PlayersEmptyException>(() => new Game(0, new Board(), new Coin()));
-        }
 
         [Fact]
         public void GameWithoutCoin_CanNotBeCreated()
         {
-            Assert.Throws<NullCoinException>(() => new Game(1, new Board(), null));
+            Assert.Throws<NullCoinException>(() => new Game(new Board(), null));
         }
     }
     

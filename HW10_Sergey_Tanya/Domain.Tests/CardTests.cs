@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Xunit;
 using Moq;
+using Domain.Interfaces;
 
 namespace Domain.Tests
 {
@@ -15,8 +16,8 @@ namespace Domain.Tests
         [Fact]
         public void CardsPlayerIdShouldBeEqualsPlayersId_WhenGameCreatedWithTheOnlyOnePlayer()
         {
-            var game = Builder.CreateGame.Please();
-            var player = game.TakePlayers().First();
+            var player = Builder.CreatePlayer.Please();
+            var game = Builder.CreateGame.With(player).Please();
             var card = game.CardsThat(Status.InWork).First();
 
             Assert.Equal(player.Id, card.PlayerId);
@@ -25,7 +26,7 @@ namespace Domain.Tests
         [Fact]
         public void CardShoudBeBlocked_WhenCoinResultIsHead()
         {
-            var game = Builder.CreateGame.WithHeadCoin().Please();
+            var game = Builder.CreateGame.WithHeadCoin().WithSomePlayer().Please();
 
             game.PlayRound();
 
@@ -35,8 +36,8 @@ namespace Domain.Tests
         [Fact]
         public void CardShoudMoveNext_WhenCoinResultIsTails()
         {
-            var cardMock = new Mock<Card>();
-            var game = Builder.CreateGame.With(cardMock).WithTailsCoin().Please();
+            var cardMock = new Mock<ICard>();
+            var game = Builder.CreateGame.WithSomePlayer().With(cardMock.Object).WithTailsCoin().Please();
 
             game.PlayRound();
 

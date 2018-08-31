@@ -10,30 +10,23 @@ namespace Domain
     public class Game
     {
         private IList<Player> _players = new List<Player>();
-        private IList<Card> _cards = new List<Card>();
-        private Board _board;
+        private IList<ICard> _cards = new List<ICard>();
+        private IBoard _board;
         private ICoin _coin;
 
-        public Game(uint playersCount, Board board, ICoin coin)
+        public Game(IBoard board, ICoin coin)
         {
-            
             _coin = coin ?? throw new NullCoinException(); 
             _board = board ?? throw new NullBoardException();
+        }
 
-            if (playersCount == 0)
-            {
-                throw new PlayersEmptyException();
-            }
+        public void AddPlayer(Player player)
+        {
+            var card = _board.GiveNewCard();
+            player.Take(card);
+            _cards.Add(card);
 
-            for (int i = 0; i < playersCount; i++)
-            {
-                var player = new Player();
-                _players.Add(player);
-
-                var card = _board.GiveNewCard();
-                player.Take(card);
-                _cards.Add(card);
-            }
+            _players.Add(player); // todo проверить на null
         }
 
         public void PlayRound()
@@ -44,7 +37,7 @@ namespace Domain
             }
         }
 
-        public IEnumerable<Card> CardsThat(Status inWork)
+        public IEnumerable<ICard> CardsThat(Status inWork)
         {
             return _cards.Where(x => x.Status == inWork);
         }

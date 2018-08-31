@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Domain.Interfaces;
+using System;
 
 namespace Domain
 {
-    public class Card
+    public class Card : ICard
     {
         public Status Status { get; private set; }
         public Guid PlayerId { get; private set; }
@@ -13,7 +14,7 @@ namespace Domain
             Status = Status.New;
         }
 
-        public virtual void MoveNextStatus()
+        public void MoveNextStatus()
         {
             Status++;
         }
@@ -23,7 +24,7 @@ namespace Domain
             PlayerId = player.Id;
         }
 
-        internal void Block()
+        public void Block()
         {
             IsBlocked = true; ;
         }

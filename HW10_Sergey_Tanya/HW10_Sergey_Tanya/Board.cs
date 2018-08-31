@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class Board
+    public class Board : IBoard
     {
-        public Card GiveNewCard()
+        public ICard GiveNewCard()
         {
             return new Card();
         }

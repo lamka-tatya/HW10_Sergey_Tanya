@@ -9,10 +9,10 @@ namespace Domain
 {
     public class Player
     {
-        private readonly IList<Card> allCards = new List<Card>();
+        private readonly IList<ICard> allCards = new List<ICard>();
 
         public Guid Id { get; private set; }
-        public IEnumerable<Card> AllCards => allCards;
+        public IEnumerable<ICard> AllCards => allCards;
         
 
         public Player()
@@ -20,7 +20,7 @@ namespace Domain
             Id = new Guid();
         }
 
-        public void Take(Card card)
+        public void Take(ICard card)
         {
             if (card.Status != Status.New)
             {
