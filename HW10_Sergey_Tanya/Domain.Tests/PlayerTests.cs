@@ -19,5 +19,15 @@ namespace Domain.Tests
 
             Assert.Throws<CardStatusIsNotNewException>(() => player.Take(card));
         }
+
+        [Fact]
+        public void PlayerShouldHaveOneCard_WhenGameStart()
+        {
+            var board = new Board();
+            var game = new Game(1, board);
+            var player = game.TakePlayers().First();
+
+            Assert.Equal(1, player.AllCards.Count());
+        }
     }
 }
