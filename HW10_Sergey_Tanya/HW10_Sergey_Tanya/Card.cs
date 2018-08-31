@@ -13,7 +13,7 @@ namespace Domain
             Status = Status.New;
         }
 
-        public void MoveNextStatus()
+        public virtual void MoveNextStatus()
         {
             Status++;
         }

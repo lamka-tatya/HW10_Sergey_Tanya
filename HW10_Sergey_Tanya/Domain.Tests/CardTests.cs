@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Xunit;
+using Moq;
 
 namespace Domain.Tests
 {
@@ -29,6 +30,17 @@ namespace Domain.Tests
             game.PlayRound();
 
             Assert.True(game.CardsThat(Status.InWork).First().IsBlocked);
+        }
+
+        [Fact]
+        public void CardShoudMoveNext_WhenCoinResultIsTails()
+        {
+            var cardMock = new Mock<Card>();
+            var game = Builder.CreateGame.With(cardMock).WithTailsCoin().Please();
+
+            game.PlayRound();
+
+            cardMock.Verify(c => c.MoveNextStatus(), Times.Once);
         }
     }
 }
