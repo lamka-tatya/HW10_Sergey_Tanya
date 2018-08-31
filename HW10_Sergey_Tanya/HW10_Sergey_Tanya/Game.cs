@@ -16,8 +16,9 @@ namespace Domain
 
         public Game(uint playersCount, Board board, ICoin coin)
         {
-            _coin = coin; // todo
-            _board = board ?? throw new BoardIsNullException();
+            
+            _coin = coin ?? throw new NullCoinException(); 
+            _board = board ?? throw new NullBoardException();
 
             if (playersCount == 0)
             {
