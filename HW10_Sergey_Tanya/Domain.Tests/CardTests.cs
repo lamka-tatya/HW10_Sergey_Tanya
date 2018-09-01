@@ -41,7 +41,7 @@ namespace Domain.Tests
 
             game.PlayRound();
 
-            cardMock.Verify(c => c.MoveNextStatus(), Times.Once);
+            cardMock.Verify(c => c.MoveNextStatus(), Times.Exactly(2));
         }
     }
 }

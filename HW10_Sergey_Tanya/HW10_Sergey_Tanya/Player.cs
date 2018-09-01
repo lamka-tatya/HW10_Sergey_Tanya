@@ -39,13 +39,27 @@ namespace Domain
 
             if (coinResult == CoinResult.Head)
             {
-                var notBlockedCard = allCards.FirstOrDefault(x => !x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
+                var notBlockedCard = TakeCardReadyForAction();
 
                 if (notBlockedCard != null)
                 {
                     notBlockedCard.Block();
                 }
             }
+            else
+            {
+                var cardToMove = TakeCardReadyForAction();
+
+                if(cardToMove != null)
+                {
+                    cardToMove.MoveNextStatus();
+                }
+            }
+        }
+
+        private ICard TakeCardReadyForAction()
+        {
+            return allCards.FirstOrDefault(x => !x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
         }
     }
 }

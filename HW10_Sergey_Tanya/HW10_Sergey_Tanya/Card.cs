@@ -16,6 +16,7 @@ namespace Domain
 
         public void MoveNextStatus()
         {
+            // todo проверку на > done
             Status++;
         }
 
