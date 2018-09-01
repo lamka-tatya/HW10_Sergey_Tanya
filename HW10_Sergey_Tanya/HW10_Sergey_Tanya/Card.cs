@@ -20,7 +20,7 @@ namespace Domain
             Status++;
         }
 
-        public void AssignTo(Player player)
+        public void AssignTo(IPlayer player)
         {
             PlayerId = player.Id;
         }

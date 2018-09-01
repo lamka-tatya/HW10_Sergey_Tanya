@@ -17,7 +17,7 @@ namespace Domain.Interfaces
 
         void MoveNextStatus();
 
-        void AssignTo(Player player);
+        void AssignTo(IPlayer player);
 
         void Block();
     }

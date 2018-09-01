@@ -7,29 +7,33 @@ using Domain.Interfaces;
 
 namespace Domain
 {
-    public class Player
+    public class Player : IPlayer
     {
-        private readonly IList<ICard> allCards = new List<ICard>();
+        private readonly IList<ICard> _allCards = new List<ICard>();
+
+        private Game _game = null;
 
         public Guid Id { get; private set; }
-        public IEnumerable<ICard> AllCards => allCards;
-        
+
+        public virtual IEnumerable<ICard> AllCards => _allCards;
 
         public Player()
         {
-            Id = new Guid();
+            Id = Guid.NewGuid();
         }
 
-        public void Take(ICard card)
+        public void JoinGame(Game game)
         {
-            if (card.Status != Status.New)
-            {
-                throw new CardStatusIsNotNewException();
-            }
+            _game = game;
+        }
 
-            allCards.Add(card);
+        public virtual void TakeNewCard()
+        {
+            var card = _game.GiveNewCard();
 
+            _allCards.Add(card);
             card.AssignTo(this);
+
             card.MoveNextStatus();
         }
 
@@ -50,16 +54,21 @@ namespace Domain
             {
                 var cardToMove = TakeCardReadyForAction();
 
+                // todo возможно порядок обработки стоит поменять
                 if(cardToMove != null)
                 {
                     cardToMove.MoveNextStatus();
+                }
+                else
+                {
+                    TakeNewCard();
                 }
             }
         }
 
         private ICard TakeCardReadyForAction()
         {
-            return allCards.FirstOrDefault(x => !x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
+            return AllCards.FirstOrDefault(x => !x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
         }
     }
 }

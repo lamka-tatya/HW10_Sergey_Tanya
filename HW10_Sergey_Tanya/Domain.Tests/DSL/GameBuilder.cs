@@ -10,7 +10,7 @@ namespace Domain.Tests.DSL
     {
         private Mock<IBoard> _board = null;
         private Mock<ICoin> _coin = new Mock<ICoin>();
-        private List<Player> _players = new List<Player>();
+        private List<IPlayer> _players = new List<IPlayer>();
 
         public GameBuilder()
         {
@@ -32,7 +32,7 @@ namespace Domain.Tests.DSL
             return this;
         }
 
-        public GameBuilder With(Player player)
+        public GameBuilder With(IPlayer player)
         {
             _players.Add(player);
             return this;
