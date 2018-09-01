@@ -10,7 +10,6 @@ namespace Domain
     public class Game
     {
         private IList<IPlayer> _players = new List<IPlayer>();
-        private IList<ICard> _cards = new List<ICard>();
         private IBoard _board;
         private ICoin _coin;
 
@@ -32,7 +31,6 @@ namespace Domain
         public ICard GiveNewCard()
         {
             var card = _board.GiveNewCard();
-            _cards.Add(card);
             return card;
         }
 
@@ -44,9 +42,9 @@ namespace Domain
             }
         }
 
-        public IEnumerable<ICard> CardsThat(Status inWork)
+        public IEnumerable<ICard> CardsThat(Status status)
         {
-            return _cards.Where(x => x.Status == inWork);
+            return _board.CardsThat(status);
         }
 
         public IEnumerable<IPlayer> TakePlayers()
