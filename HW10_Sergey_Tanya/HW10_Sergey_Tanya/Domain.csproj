@@ -57,10 +57,11 @@
     <Compile Include="Interfaces\IBoard.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\ICoin.cs" />
+    <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CoinResult.cs" />
-    <Compile Include="Status.cs" />
+    <Compile Include="Enums\CoinResult.cs" />
+    <Compile Include="Enums\Status.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
