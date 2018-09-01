@@ -60,7 +60,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void ShouldNotMoveNextStatus_WhenWipLimitInWorkIsReached()
+        public void ShouldNotMoveInWorkStatus_WhenWipLimitInWorkIsReached()
         {
             var board = Builder.CreateBoard.WithWipLimit((uint)1).Please();
 
@@ -68,6 +68,18 @@ namespace Domain.Tests
             firstNewCard.MoveNextStatus();
 
             var secondNewCard = board.GiveNewCard();
+
+            Assert.False(secondNewCard.MoveNextStatus());
+        }
+
+
+        [Fact]
+        public void ShouldNotMoveTestStatus_WhenWipLimitInWorkIsReached()
+        {
+            var board = Builder.CreateBoard.WithWipLimit((uint)1).WithCardInTestStatus().Please();
+            var secondNewCard = board.GiveNewCard();
+
+            secondNewCard.MoveNextStatus();
 
             Assert.False(secondNewCard.MoveNextStatus());
         }
