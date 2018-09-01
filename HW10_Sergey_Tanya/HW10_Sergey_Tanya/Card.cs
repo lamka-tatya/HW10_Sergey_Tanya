@@ -16,7 +16,10 @@ namespace Domain
 
         public void MoveNextStatus()
         {
-            // todo проверку на > done
+            if (Status == Status.Done)
+            {
+                throw new Exception();
+            }
             Status++;
         }
 

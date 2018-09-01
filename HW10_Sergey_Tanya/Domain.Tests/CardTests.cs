@@ -43,5 +43,18 @@ namespace Domain.Tests
 
             cardMock.Verify(c => c.MoveNextStatus(), Times.Exactly(2));
         }
+
+        [Fact]
+        public void CardCantMoveStatus_WhenItStatusIsDone()
+        {
+            var card = new Card();
+
+            for (int i = 0; i < 3; i++)
+            {
+                card.MoveNextStatus();
+            }
+
+            Assert.Throws<Exception>(() => card.MoveNextStatus());
+        }
     }
 }
