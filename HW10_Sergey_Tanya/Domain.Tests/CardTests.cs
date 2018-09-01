@@ -8,6 +8,7 @@ using System.Text;
 using Xunit;
 using Moq;
 using Domain.Interfaces;
+using Domain.Extensions;
 
 namespace Domain.Tests
 {
@@ -36,18 +37,19 @@ namespace Domain.Tests
         [Fact]
         public void CardShoudMoveNext_WhenCoinResultIsTails()
         {
-            var cardMock = new Mock<ICard>();
-            var game = Builder.CreateGame.WithSomePlayer().With(cardMock.Object).WithTailsCoin().Please();
+            var card = new Card(Builder.CreateBoard.Please());
+            var game = Builder.CreateGame.WithSomePlayer().With(card).WithTailsCoin().Please();
+            var prevStatus = card.Status;
 
             game.PlayRound();
 
-            cardMock.Verify(c => c.MoveNextStatus(), Times.Exactly(2));
+            Assert.Equal(prevStatus.Next(), card.Status);
         }
 
         [Fact]
-        public void CardCantMoveStatus_WhenItStatusIsDone()
+        public void CardCanNotMoveStatus_WhenItsStatusIsDone()
         {
-            var card = new Card();
+            var card = Builder.CreateBoard.Please().GiveNewCard();
 
             for (int i = 0; i < 3; i++)
             {
@@ -55,6 +57,19 @@ namespace Domain.Tests
             }
 
             Assert.Throws<CardStatusException>(() => card.MoveNextStatus());
+        }
+
+        [Fact]
+        public void ShouldNotMoveNextStatus_WhenWipLimitInWorkIsReached()
+        {
+            var board = Builder.CreateBoard.WithWipLimit((uint)1).Please();
+
+            var firstNewCard = board.GiveNewCard();
+            firstNewCard.MoveNextStatus();
+
+            var secondNewCard = board.GiveNewCard();
+
+            Assert.False(secondNewCard.MoveNextStatus());
         }
     }
 }

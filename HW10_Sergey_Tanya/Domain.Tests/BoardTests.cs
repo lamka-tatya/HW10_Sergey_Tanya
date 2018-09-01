@@ -10,14 +10,6 @@ namespace Domain.Tests
 {
     public class BoardTests
     {
-        [Fact]
-        public void BoardShouldReturnNull_WhenWipLimitIsReached()
-        {
-            var board = Builder.CreateBoard.WithReachedWipLimit().Please();
-
-            var newCard = board.GiveNewCard();
-
-            Assert.Null(newCard);
-        }
+        
     }
 }

@@ -52,12 +52,12 @@ namespace Domain
             }
             else
             {
-                var cardTo = TakeCardReadyForAction();
+                var card = TakeCardReadyForAction();
 
                 // todo возможно порядок обработки стоит поменять
-                if(cardTo != null)
+                if(card != null && card.MoveNextStatus())
                 {
-                    cardTo.MoveNextStatus();
+                    return;
                 }
                 else
                 {

@@ -10,6 +10,9 @@ namespace Domain.Interfaces
     public interface IBoard
     {
         ICard GiveNewCard();
+
         IEnumerable<ICard> CardsThat(Status status);
+
+        bool WipLimitIsReached(Status status);
     }
 }

@@ -20,18 +20,19 @@ namespace Domain
 
         public ICard GiveNewCard()
         {
-            if (!_wipLimit.IsReached((uint)CardsThat(Status.InWork).Count()))
-            {
-                var card = new Card();
-                _cards.Add(card);
-                return card;
-            }
-            return null;
+            var card = new Card(this);
+            _cards.Add(card);
+            return card;
         }
 
         public IEnumerable<ICard> CardsThat(Status status)
         {
             return _cards.Where(x => x.Status == status);
+        }
+
+        public bool WipLimitIsReached(Status status)
+        {
+            return _wipLimit.IsReached((uint)CardsThat(status).Count());
         }
     }
 }

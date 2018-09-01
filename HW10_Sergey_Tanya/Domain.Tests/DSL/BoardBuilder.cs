@@ -8,6 +8,8 @@ namespace Domain.Tests.DSL
     {
         private Mock<IWipLimit> _wipLimit;
 
+        private uint _limit = 1;
+
         public BoardBuilder WithReachedWipLimit()
         {
             _wipLimit = new Mock<IWipLimit>();
@@ -16,9 +18,16 @@ namespace Domain.Tests.DSL
             return this;
         }
 
+        public BoardBuilder WithWipLimit(uint limit)
+        {
+            _limit = limit;
+
+            return this;
+        }
+
         public IBoard Please()
         {
-            return new Board(_wipLimit != null ? _wipLimit.Object : new WipLimit(1));
+            return new Board(_wipLimit != null ? _wipLimit.Object : new WipLimit(_limit));
         }
     }
 }

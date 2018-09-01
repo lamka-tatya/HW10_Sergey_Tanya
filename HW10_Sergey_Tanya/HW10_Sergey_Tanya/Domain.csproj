@@ -53,6 +53,7 @@
     <Compile Include="Exceptions\PlayersEmptyException.cs" />
     <Compile Include="Exceptions\NullBoardException.cs" />
     <Compile Include="Card.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Interfaces\IBoard.cs" />
     <Compile Include="Interfaces\ICard.cs" />
