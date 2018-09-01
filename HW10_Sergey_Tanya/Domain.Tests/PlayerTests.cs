@@ -6,21 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Xunit;
+using Moq;
+using Domain.Interfaces;
 
 namespace Domain.Tests
 {
     public class PlayerTests
     {
-        [Fact]
-        public void PlayerShouldTakeInWorkOnlyCardsInNewStatus()
-        {
-            var player = new Player();
-            var card = new Card();
-            card.MoveNextStatus();
-
-            Assert.Throws<CardStatusIsNotNewException>(() => player.Take(card));
-        }
-
         [Fact]
         public void PlayerShouldHaveOneCard_WhenGameStart()
         {
@@ -28,6 +20,17 @@ namespace Domain.Tests
             var game = Builder.CreateGame.With(player).Please();
 
             Assert.Single(player.AllCards);
+        }
+
+        [Fact]
+        public void PlayerShouldTakeOneMoreCard_WhenCoinResultIsTails_AndHasNoCardsToMove()
+        {
+            var playerMock = Builder.CreatePlayer.WithBlockedCards().MockPlease();
+            var game = Builder.CreateGame.With(playerMock.Object).WithTailsCoin().Please();
+
+            game.PlayRound();
+
+            playerMock.Verify(p => p.TakeNewCard(), Times.Exactly(2));
         }
     }
 }

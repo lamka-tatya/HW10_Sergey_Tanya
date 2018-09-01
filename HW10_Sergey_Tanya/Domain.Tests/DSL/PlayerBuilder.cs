@@ -1,13 +1,43 @@
-﻿namespace Domain.Tests.DSL
+﻿using Domain.Interfaces;
+using Moq;
+using System.Collections.Generic;
+
+namespace Domain.Tests.DSL
 {
     public class PlayerBuilder
     {
+        private Mock<Player> _player = null;
+
         public PlayerBuilder()
         {
         }
 
-        public Player Please()
+        public PlayerBuilder WithBlockedCards()
         {
+            var blockedCard = new Mock<ICard>();
+            _player = new Mock<Player>();
+
+            blockedCard.Setup(c => c.IsBlocked).Returns(true);
+            blockedCard.Setup(c => c.Status).Returns(Status.InWork);
+            blockedCard.Setup(c => c.PlayerId).Returns(_player.Object.Id);
+
+            _player.Setup(p => p.AllCards).Returns(new List<ICard>() { blockedCard.Object });
+
+            return this;
+        }
+
+        public Mock<Player> MockPlease()
+        {
+            return _player;
+        }
+
+        public IPlayer Please()
+        {
+            if(_player != null)
+            {
+                return _player.Object;
+            }
+
             return new Player();
         }
     }
