@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class CardStatusIsNotNewException : Exception
+    public class CardStatusException : Exception
     {
-        public override string Message => "Статус карточки должен быть новым";
+        public override string Message => "Дальше статуса нет!";
     }
 }

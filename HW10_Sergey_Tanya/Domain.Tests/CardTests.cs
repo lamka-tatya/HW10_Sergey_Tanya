@@ -54,7 +54,7 @@ namespace Domain.Tests
                 card.MoveNextStatus();
             }
 
-            Assert.Throws<Exception>(() => card.MoveNextStatus());
+            Assert.Throws<CardStatusException>(() => card.MoveNextStatus());
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Domain
         {
             if (Status == Status.Done)
             {
-                throw new Exception();
+                throw new CardStatusException();
             }
             Status++;
         }

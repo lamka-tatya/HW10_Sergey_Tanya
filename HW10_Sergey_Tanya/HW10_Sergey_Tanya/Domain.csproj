@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="Coin.cs" />
-    <Compile Include="Exceptions\CardStatusIsNotNewException.cs" />
+    <Compile Include="Exceptions\CardStatusException.cs" />
     <Compile Include="Exceptions\NullCoinException.cs" />
     <Compile Include="Exceptions\PlayersEmptyException.cs" />
     <Compile Include="Exceptions\NullBoardException.cs" />
@@ -58,10 +58,12 @@
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\ICoin.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
+    <Compile Include="Interfaces\IWipLimit.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Enums\CoinResult.cs" />
     <Compile Include="Enums\Status.cs" />
+    <Compile Include="WipLimit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

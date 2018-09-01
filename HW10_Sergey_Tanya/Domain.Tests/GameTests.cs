@@ -34,7 +34,7 @@ namespace Domain.Tests
         [Fact]
         public void GameWithoutCoin_CanNotBeCreated()
         {
-            Assert.Throws<NullCoinException>(() => new Game(new Board(), null));
+            Assert.Throws<NullCoinException>(() => new Game(new Board(new WipLimit(1)), null));
         }
     }
     

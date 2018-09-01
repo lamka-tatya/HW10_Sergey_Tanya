@@ -61,7 +61,7 @@ namespace Domain.Tests.DSL
 
         public Game Please()
         {
-            var game = new Game(_board != null ? _board.Object : new Board(), _coin.Object);
+            var game = new Game(_board != null ? _board.Object : new Board(new WipLimit(10)), _coin.Object);
 
             foreach (var player in _players)
             {
