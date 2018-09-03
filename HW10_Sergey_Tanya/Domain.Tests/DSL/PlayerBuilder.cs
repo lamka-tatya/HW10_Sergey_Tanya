@@ -28,7 +28,7 @@ namespace Domain.Tests.DSL
 
         public Mock<Player> MockPlease()
         {
-            return _player;
+            return _player ?? new Mock<Player>();
         }
 
         public IPlayer Please()

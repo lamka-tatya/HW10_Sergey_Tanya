@@ -1,25 +1,19 @@
 ﻿using Domain.Tests.DSL;
-using Domain;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Xunit;
 using Moq;
-using Domain.Interfaces;
+using Xunit;
 
 namespace Domain.Tests
 {
     public class PlayerTests
     {
         [Fact]
-        public void PlayerShouldHaveOneCard_WhenGameStart()
+        public void PlayerShouldTakeOneCard_WhenGameStart()
         {
-            var player = Builder.CreatePlayer.Please();
-            var game = Builder.CreateGame.With(player).Please();
+            var playerMock = Builder.CreatePlayer.MockPlease();
 
-            Assert.Single(player.AllCards);
+            var game = Builder.CreateGame.With(playerMock.Object).Please();
+
+            playerMock.Verify(p => p.TakeNewCard(), Times.Once);
         }
 
         [Fact]

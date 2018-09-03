@@ -1,14 +1,7 @@
-﻿using Domain.Tests.DSL;
-using Domain;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using Domain.Extensions;
+using Domain.Tests.DSL;
 using System.Linq;
-using System.Text;
 using Xunit;
-using Moq;
-using Domain.Interfaces;
-using Domain.Extensions;
 
 namespace Domain.Tests
 {
@@ -60,28 +53,28 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void ShouldNotMoveInWorkStatus_WhenWipLimitInWorkIsReached()
+        public void ShouldNotMoveInWorkStatus_WhenInWorkWipLimitIsReached()
         {
             var board = Builder.CreateBoard.WithWipLimit((uint)1).Please();
 
-            var firstNewCard = board.GiveNewCard();
-            firstNewCard.MoveNextStatus();
+            var inWorkCard = board.GiveNewCard();
+            inWorkCard.MoveNextStatus();
 
-            var secondNewCard = board.GiveNewCard();
+            var newCard = board.GiveNewCard();
 
-            Assert.False(secondNewCard.MoveNextStatus());
+            Assert.False(newCard.MoveNextStatus());
         }
 
 
         [Fact]
-        public void ShouldNotMoveTestStatus_WhenWipLimitInWorkIsReached()
+        public void ShouldNotMoveInTestStatus_WhenTestWipLimitIsReached()
         {
             var board = Builder.CreateBoard.WithWipLimit((uint)1).WithCardInTestStatus().Please();
-            var secondNewCard = board.GiveNewCard();
+            var inWorkCard = board.GiveNewCard();
 
-            secondNewCard.MoveNextStatus();
+            inWorkCard.MoveNextStatus();
 
-            Assert.False(secondNewCard.MoveNextStatus());
+            Assert.False(inWorkCard.MoveNextStatus());
         }
     }
 }
