@@ -41,7 +41,14 @@ namespace Domain
 
         public void Block()
         {
+            // todo ?
             IsBlocked = true;
+        }
+
+        public void UnBlock()
+        {
+            // todo ?
+            IsBlocked = false;
         }
     }
 }

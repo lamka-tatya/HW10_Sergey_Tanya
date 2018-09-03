@@ -39,6 +39,19 @@ namespace Domain
             return result;                
         }
 
+        public virtual bool TryUnblockCard()
+        {
+            var card = TakeBlockedCard();
+            var result = card != null;
+
+            if (result)
+            {
+                card.UnBlock();
+            }
+
+            return result;
+        }
+
         public void Toss(ICoin coin)
         {
             var coinResult = coin.Toss();
@@ -61,9 +74,13 @@ namespace Domain
                 {
                     return;
                 }
+                else if(TryTakeNewCard())
+                {
+                    return;
+                }
                 else
                 {
-                    TryTakeNewCard();
+                    TryUnblockCard();
                 }
             }
         }
@@ -71,6 +88,11 @@ namespace Domain
         private ICard TakeCardReadyForAction()
         {
             return AllCards.FirstOrDefault(x => !x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
+        }
+
+        private ICard TakeBlockedCard()
+        {
+            return AllCards.FirstOrDefault(x => x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
         }
     }
 }

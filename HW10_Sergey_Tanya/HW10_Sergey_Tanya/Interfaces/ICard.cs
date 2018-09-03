@@ -20,6 +20,8 @@ namespace Domain.Interfaces
         void AssignTo(IPlayer player);
 
         void Block();
+
+        void UnBlock();
     }
 
 }
