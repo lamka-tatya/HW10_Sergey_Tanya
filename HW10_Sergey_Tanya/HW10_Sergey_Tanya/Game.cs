@@ -23,7 +23,7 @@ namespace Domain
         {
             player.JoinGame(this);
 
-            player.TakeNewCard();
+            player.TryTakeNewCard();
 
             _players.Add(player); // todo проверить на null
         }

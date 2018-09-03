@@ -27,7 +27,7 @@ namespace Domain
             _game = game;
         }
 
-        public virtual bool TakeNewCard()
+        public virtual bool TryTakeNewCard()
         {
             var card = _game.GiveNewCard();
             var result = card != null && card.TryMoveNextStatus();
@@ -63,7 +63,7 @@ namespace Domain
                 }
                 else
                 {
-                    TakeNewCard();
+                    TryTakeNewCard();
                 }
             }
         }

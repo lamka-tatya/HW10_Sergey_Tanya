@@ -13,7 +13,7 @@ namespace Domain.Tests
 
             var game = Builder.CreateGame.With(playerMock.Object).Please();
 
-            playerMock.Verify(p => p.TakeNewCard(), Times.Once);
+            playerMock.Verify(p => p.TryTakeNewCard(), Times.Once);
         }
 
         [Fact]
@@ -24,7 +24,7 @@ namespace Domain.Tests
 
             game.PlayRound();
 
-            playerMock.Verify(p => p.TakeNewCard(), Times.Exactly(2));
+            playerMock.Verify(p => p.TryTakeNewCard(), Times.Exactly(2));
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace Domain.Tests
             var player = Builder.CreatePlayer.Please();
             var game = Builder.CreateGame.With(player).And().WithReachedWipLimit().Please();
 
-            var newCardResult = player.TakeNewCard();
+            var newCardResult = player.TryTakeNewCard();
 
             Assert.False(newCardResult);
         }
