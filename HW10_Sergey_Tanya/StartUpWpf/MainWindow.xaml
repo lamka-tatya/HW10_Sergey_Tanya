@@ -1,0 +1,67 @@
+﻿<Window x:Class="StartUpWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StartUpWpf"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Привет, я хочу сыграть с тобой в игру" Height="450" Width="1000" Margin="0,-3,0,0" >
+    <Window.DataContext>
+        <local:MultipleSeriesVm></local:MultipleSeriesVm>
+    </Window.DataContext>
+    <Grid Margin="10">
+        <Grid.Resources>
+            <Style TargetType="lvc:Separator">
+                <Setter Property="Stroke" Value="#69000000"></Setter>
+                <Setter Property="StrokeThickness" Value=".2"></Setter>
+                <Setter Property="StrokeDashArray" Value="2"></Setter>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition Width="60"></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition Width="60"></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition Width="60"></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition Width="60"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" TextWrapping="Wrap" Margin="10,0" HorizontalAlignment="Right" VerticalAlignment="Center">Максимальное количество игроков:</TextBlock>
+        <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Name="maxPlayersCount" Height="30" Minimum="1" Value="{Binding MaxPlayersCount}" Maximum="100" />
+
+        <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="Wrap" Margin="10,0" HorizontalAlignment="Right" VerticalAlignment="Center">Максимальный wip limit:</TextBlock>
+        <xctk:IntegerUpDown Grid.Column="3" Grid.Row="0" Name="maxWipLimit" Height="30" Minimum="1" Value="{Binding MaxWipLimit}" Maximum="100" />
+
+        <TextBlock Grid.Column="4" Grid.Row="0" TextWrapping="Wrap" Margin="10,0" HorizontalAlignment="Right" VerticalAlignment="Center">Количество игр:</TextBlock>
+        <xctk:IntegerUpDown Grid.Column="5" Grid.Row="0" Name="runCount" Height="30" Minimum="1" Value="{Binding GamesCount}" Maximum="10000" />
+
+        <TextBlock Grid.Column="6" Grid.Row="0" TextWrapping="Wrap" Margin="10,0" HorizontalAlignment="Right" VerticalAlignment="Center">Количество раундов в каждой игре:</TextBlock>
+        <xctk:IntegerUpDown Grid.Column="7" Grid.Row="0" Name="roundsCount" Height="30" Minimum="1" Value="{Binding RoundsCount}" Maximum="10000" />
+
+        
+
+        <Button Grid.Column="8" Grid.Row="0" Height="30" Width="80" Margin="10" Click="Button_Click">Начать игру</Button>
+
+        <lvc:CartesianChart Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9" Series="{Binding Series}" LegendLocation="Right" Margin="0,10,0,0" Foreground="Black">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Количество закрытых карточек" ></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Wip limit" Labels="{Binding Labels}"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
+        <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="9" TextWrapping="Wrap" Name="DescriptionBlock" Text="{Binding DescriptionBlock}">
+           
+        </TextBlock>
+    </Grid>
+</Window>
