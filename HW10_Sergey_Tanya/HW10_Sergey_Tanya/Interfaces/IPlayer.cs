@@ -19,5 +19,7 @@ namespace Domain.Interfaces
         void JoinGame(Game game);
 
         void HelpOtherPlayer();
+
+        void BlockCard();
     }
 }

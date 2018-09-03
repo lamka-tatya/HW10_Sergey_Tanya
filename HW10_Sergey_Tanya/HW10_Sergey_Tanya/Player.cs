@@ -58,13 +58,7 @@ namespace Domain
 
             if (coinResult == CoinResult.Head)
             {
-                var notBlockedCard = TakeCardReadyForAction();
-
-                if (notBlockedCard != null)
-                {
-                    notBlockedCard.Block();
-                }
-
+                BlockCard();
                 TryTakeNewCard();
             }
             else
@@ -98,6 +92,16 @@ namespace Domain
         private ICard TakeBlockedCard()
         {
             return AllCards.FirstOrDefault(x => x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
+        }
+
+        public virtual void BlockCard()
+        {
+            var card = TakeCardReadyForAction();
+
+            if (card != null)
+            {
+                card.Block();
+            }
         }
     }
 }

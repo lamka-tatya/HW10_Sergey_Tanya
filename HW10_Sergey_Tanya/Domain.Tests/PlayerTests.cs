@@ -82,5 +82,18 @@ namespace Domain.Tests
 
             playerMock.Verify(p => p.TryTakeNewCard(), Times.Exactly(2));
         }
+
+        [Fact]
+        public void PlayerShouldTryBlockCard_WhenCoinResultIsHead()
+        {
+            var playerMock = Builder.CreatePlayer.MockPlease();
+            var game = Builder.CreateGame.With(playerMock.Object)
+                                         .And()
+                                         .WithHeadCoin().Please();
+
+            game.PlayRound();
+
+            playerMock.Verify(p => p.BlockCard(), Times.Once);
+        }
     }
 }
