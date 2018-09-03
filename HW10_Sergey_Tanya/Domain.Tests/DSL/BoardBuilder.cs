@@ -12,6 +12,8 @@ namespace Domain.Tests.DSL
 
         private Action<Board> _action;
 
+        private Action<Board> _action2;
+
         public BoardBuilder WithReachedWipLimit()
         {
             _wipLimit = new Mock<IWipLimit>();
@@ -33,6 +35,25 @@ namespace Domain.Tests.DSL
             return this;
         }
 
+        public BoardBuilder WithCardInDoneStatus()
+        {
+            _action2 = (Board board) =>
+            {
+                var firstNewCard = board.GiveNewCard();
+
+                firstNewCard.TryMoveNextStatus();
+                firstNewCard.TryMoveNextStatus();
+                firstNewCard.TryMoveNextStatus();
+            };
+
+            return this;
+        }
+
+        public BoardBuilder And()
+        {
+             return this;
+        }
+
         public BoardBuilder WithWipLimit(uint limit)
         {
             _limit = limit;
@@ -47,6 +68,11 @@ namespace Domain.Tests.DSL
             if(_action != null)
             {
                 _action(board);
+            }
+
+            if (_action2 != null)
+            {
+                _action2(board);
             }
 
             return board;

@@ -34,6 +34,10 @@ namespace Domain
 
         public bool WipLimitIsReached(Status status)
         {
+            if (status == Status.Done)
+            {
+                return false;
+            }
             return WipLimit.IsReached((uint)CardsThat(status).Count());
         }
     }

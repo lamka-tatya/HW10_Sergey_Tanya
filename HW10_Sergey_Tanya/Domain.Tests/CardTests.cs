@@ -76,5 +76,21 @@ namespace Domain.Tests
 
             Assert.False(inWorkCard.TryMoveNextStatus());
         }
+
+        [Fact]
+        public void ShouldCanMoveCardInDoneStatus_WhenWipLimitIsReached()
+        {
+            var board = Builder.CreateBoard.WithWipLimit((uint)1)
+                                           .And()
+                                           .WithCardInDoneStatus()
+                                           .And()
+                                           .WithCardInTestStatus()
+                                           .Please();
+            var card = board.CardsThat(Status.Testing).First();
+
+            card.TryMoveNextStatus();
+
+            Assert.Equal(Status.Done, card.Status);
+        }
     }
 }
