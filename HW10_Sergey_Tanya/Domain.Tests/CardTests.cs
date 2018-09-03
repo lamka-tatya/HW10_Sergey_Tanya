@@ -46,10 +46,10 @@ namespace Domain.Tests
 
             for (int i = 0; i < 3; i++)
             {
-                card.MoveNextStatus();
+                card.TryMoveNextStatus();
             }
 
-            Assert.Throws<CardStatusException>(() => card.MoveNextStatus());
+            Assert.Throws<CardStatusException>(() => card.TryMoveNextStatus());
         }
 
         [Fact]
@@ -58,11 +58,11 @@ namespace Domain.Tests
             var board = Builder.CreateBoard.WithWipLimit((uint)1).Please();
 
             var inWorkCard = board.GiveNewCard();
-            inWorkCard.MoveNextStatus();
+            inWorkCard.TryMoveNextStatus();
 
             var newCard = board.GiveNewCard();
 
-            Assert.False(newCard.MoveNextStatus());
+            Assert.False(newCard.TryMoveNextStatus());
         }
 
 
@@ -72,9 +72,9 @@ namespace Domain.Tests
             var board = Builder.CreateBoard.WithWipLimit((uint)1).WithCardInTestStatus().Please();
             var inWorkCard = board.GiveNewCard();
 
-            inWorkCard.MoveNextStatus();
+            inWorkCard.TryMoveNextStatus();
 
-            Assert.False(inWorkCard.MoveNextStatus());
+            Assert.False(inWorkCard.TryMoveNextStatus());
         }
     }
 }

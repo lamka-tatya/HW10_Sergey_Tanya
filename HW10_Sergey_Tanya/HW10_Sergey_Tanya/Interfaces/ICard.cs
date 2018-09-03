@@ -15,7 +15,7 @@ namespace Domain.Interfaces
 
         Guid PlayerId { get; }
 
-        bool MoveNextStatus();
+        bool TryMoveNextStatus();
 
         void AssignTo(IPlayer player);
 

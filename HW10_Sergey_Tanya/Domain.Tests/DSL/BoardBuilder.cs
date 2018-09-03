@@ -26,8 +26,8 @@ namespace Domain.Tests.DSL
                 {
                     var firstNewCard = board.GiveNewCard();
 
-                    firstNewCard.MoveNextStatus();
-                    firstNewCard.MoveNextStatus();
+                    firstNewCard.TryMoveNextStatus();
+                    firstNewCard.TryMoveNextStatus();
                 };
 
             return this;

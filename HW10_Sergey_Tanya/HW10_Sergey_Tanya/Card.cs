@@ -18,7 +18,7 @@ namespace Domain
             Status = Status.New;
         }
 
-        public bool MoveNextStatus()
+        public bool TryMoveNextStatus()
         {
             if (Status == Status.Done)
             {

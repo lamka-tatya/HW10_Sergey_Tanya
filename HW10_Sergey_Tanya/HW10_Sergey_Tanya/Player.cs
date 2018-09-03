@@ -34,7 +34,7 @@ namespace Domain
             _allCards.Add(card);
             card.AssignTo(this);
 
-            card.MoveNextStatus();
+            card.TryMoveNextStatus();
         }
 
         public void Toss(ICoin coin)
@@ -55,7 +55,7 @@ namespace Domain
                 var card = TakeCardReadyForAction();
 
                 // todo возможно порядок обработки стоит поменять
-                if(card != null && card.MoveNextStatus())
+                if(card != null && card.TryMoveNextStatus())
                 {
                     return;
                 }
