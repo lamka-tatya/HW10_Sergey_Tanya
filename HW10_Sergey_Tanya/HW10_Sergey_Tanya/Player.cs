@@ -64,6 +64,8 @@ namespace Domain
                 {
                     notBlockedCard.Block();
                 }
+
+                TryTakeNewCard();
             }
             else
             {
