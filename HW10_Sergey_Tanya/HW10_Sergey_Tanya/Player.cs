@@ -70,15 +70,9 @@ namespace Domain
                 var card = TakeCardReadyForAction();
 
                 // todo возможно порядок обработки стоит поменять
-                if(card != null && card.TryMoveNextStatus())
-                {
-                    return;
-                }
-                else if(TryTakeNewCard())
-                {
-                    return;
-                }
-                else if(TryUnblockCard())
+                if((card != null && card.TryMoveNextStatus()) ||
+                    TryTakeNewCard() ||
+                    TryUnblockCard())
                 {
                     return;
                 }
