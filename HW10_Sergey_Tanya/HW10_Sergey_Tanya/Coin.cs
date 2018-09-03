@@ -1,18 +1,16 @@
-﻿using Domain;
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain
 {
     public class Coin : ICoin
     {
+        private Random rnd = new Random();
+       
         public CoinResult Toss()
         {
-            throw new NotImplementedException();
+            var res = rnd.Next(1, 10);
+            return res > 5 ? CoinResult.Head : CoinResult.Tails;
         }
     }
 }
