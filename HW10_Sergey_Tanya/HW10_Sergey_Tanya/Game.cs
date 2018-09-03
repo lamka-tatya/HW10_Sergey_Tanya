@@ -15,7 +15,7 @@ namespace Domain
 
         public Game(IBoard board, ICoin coin)
         {
-            _coin = coin ?? throw new NullCoinException(); 
+            _coin = coin ?? throw new NullCoinException();
             _board = board ?? throw new NullBoardException();
         }
 
@@ -36,7 +36,7 @@ namespace Domain
 
         public void PlayRound()
         {
-            foreach(var player in _players)
+            foreach (var player in _players)
             {
                 player.Toss(_coin);
             }
@@ -55,6 +55,25 @@ namespace Domain
         public int CardsCount(Status status)
         {
             return CardsThat(status).Count();
+        }
+
+        public void HelpOtherPlayer()
+        {
+            foreach (var status in new[] { Status.Testing, Status.InWork })
+            {
+                var cardToMove = _board.CardsThat(status).FirstOrDefault(x => !x.IsBlocked);
+                var cardToUnBlock = _board.CardsThat(status).FirstOrDefault(x => x.IsBlocked);
+
+                if (cardToMove != null && cardToMove.TryMoveNextStatus())
+                {
+                    return;
+                }
+                else if (cardToUnBlock != null)
+                {
+                    cardToUnBlock.UnBlock();
+                    return;
+                }
+            }
         }
     }
 }

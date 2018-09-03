@@ -78,11 +78,20 @@ namespace Domain
                 {
                     return;
                 }
+                else if(TryUnblockCard())
+                {
+                    return;
+                }
                 else
                 {
-                    TryUnblockCard();
+                    HelpOtherPlayer();
                 }
             }
+        }
+
+        public virtual void HelpOtherPlayer()
+        {
+            _game.HelpOtherPlayer();
         }
 
         private ICard TakeCardReadyForAction()

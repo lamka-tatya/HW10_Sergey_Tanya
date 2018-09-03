@@ -39,7 +39,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void PlayerShouldTryUnblockCard_WhenCoinResultIsTails_WhenWhenWipLimitIsReached_AndHasNoCardsToMoveNextStatus()
+        public void PlayerShouldTryUnblockCard_WhenCoinResultIsTails_AndWhenWhenWipLimitIsReached_AndHasNoCardsToMoveNextStatus()
         {
             var playerMock = Builder.CreatePlayer.WithBlockedCards().MockPlease();
             var game = Builder.CreateGame
@@ -52,6 +52,22 @@ namespace Domain.Tests
             game.PlayRound();
 
             playerMock.Verify(p => p.TryUnblockCard(), Times.Once);
+        }
+
+        [Fact]
+        public void PlayerShouldHelpOtherPlayer_WhenCoinResultIsTails_AndWhenWhenWipLimitIsReached_AndHasNoCardsToMoveNextStatus_AndHasNoCardsToUnlock()
+        {
+            var playerMock = Builder.CreatePlayer.MockPlease();
+            var game = Builder.CreateGame
+                .With(playerMock.Object)
+                .And()
+                .WithTailsCoin()
+                .And()
+                .WithReachedWipLimit().Please();
+
+            game.PlayRound();
+
+            playerMock.Verify(p => p.HelpOtherPlayer(), Times.Once);
         }
     }
 }

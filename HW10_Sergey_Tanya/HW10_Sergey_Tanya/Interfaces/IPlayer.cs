@@ -17,5 +17,7 @@ namespace Domain.Interfaces
         void Toss(ICoin coin);
 
         void JoinGame(Game game);
+
+        void HelpOtherPlayer();
     }
 }
