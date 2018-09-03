@@ -26,5 +26,16 @@ namespace Domain.Tests
 
             playerMock.Verify(p => p.TakeNewCard(), Times.Exactly(2));
         }
+
+        [Fact]
+        public void PlayerShouldNotTakeNewCard_WhenInWorkWipLimitIsReached()
+        {
+            var player = Builder.CreatePlayer.Please();
+            var game = Builder.CreateGame.With(player).And().WithReachedWipLimit().Please();
+
+            var newCardResult = player.TakeNewCard();
+
+            Assert.False(newCardResult);
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace Domain.Interfaces
         IEnumerable<ICard> CardsThat(Status status);
 
         bool WipLimitIsReached(Status status);
+
+        IWipLimit WipLimit { get; }
     }
 }

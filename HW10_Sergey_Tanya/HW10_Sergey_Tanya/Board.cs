@@ -10,7 +10,9 @@ namespace Domain
     public class Board : IBoard
     {
         private IList<ICard> _cards;
-        private IWipLimit _wipLimit;
+        private readonly IWipLimit _wipLimit;
+
+        public IWipLimit WipLimit => _wipLimit;
 
         public Board(IWipLimit wipLimit)
         {
@@ -32,7 +34,7 @@ namespace Domain
 
         public bool WipLimitIsReached(Status status)
         {
-            return _wipLimit.IsReached((uint)CardsThat(status).Count());
+            return WipLimit.IsReached((uint)CardsThat(status).Count());
         }
     }
 }

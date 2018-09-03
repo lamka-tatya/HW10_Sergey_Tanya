@@ -9,6 +9,7 @@ namespace Domain.Tests.DSL
     public class GameBuilder
     {
         private Mock<IBoard> _board = null;
+        private Mock<IWipLimit> _wipLimit = null; 
         private Mock<ICoin> _coin = new Mock<ICoin>();
         private List<IPlayer> _players = new List<IPlayer>();
 
@@ -46,6 +47,13 @@ namespace Domain.Tests.DSL
             return this;
         }
 
+        internal GameBuilder WithReachedWipLimit()
+        {
+            _wipLimit = new Mock<IWipLimit>();
+            _wipLimit.Setup(w => w.IsReached(It.IsAny<uint>())).Returns(true);
+            return this;
+        }
+
         internal GameBuilder WithHeadCoin()
         {
             _coin.Setup(c => c.Toss()).Returns(CoinResult.Head);
@@ -61,7 +69,20 @@ namespace Domain.Tests.DSL
 
         public Game Please()
         {
-            var game = new Game(_board != null ? _board.Object : new Board(new WipLimit(10)), _coin.Object);
+            var wipLimit = _wipLimit != null ? _wipLimit.Object : new WipLimit(10);
+            IBoard board = null;
+
+            if (_board != null)
+            {
+                _board.Setup(x => x.WipLimit).Returns(wipLimit);
+                board = _board.Object;
+            }
+            else
+            {
+                board = new Board(wipLimit);
+            }
+
+            var game = new Game(board, _coin.Object);
 
             foreach (var player in _players)
             {

@@ -27,14 +27,16 @@ namespace Domain
             _game = game;
         }
 
-        public virtual void TakeNewCard()
+        public virtual bool TakeNewCard()
         {
             var card = _game.GiveNewCard();
-
-            _allCards.Add(card);
-            card.AssignTo(this);
-
-            card.TryMoveNextStatus();
+            var result = card != null && card.TryMoveNextStatus();
+            if (result)
+            {
+                _allCards.Add(card);
+                card.AssignTo(this);
+            }
+            return result;                
         }
 
         public void Toss(ICoin coin)

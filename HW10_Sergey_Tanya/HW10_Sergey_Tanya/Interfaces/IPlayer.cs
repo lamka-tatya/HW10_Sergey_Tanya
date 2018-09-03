@@ -9,7 +9,7 @@ namespace Domain.Interfaces
         IEnumerable<ICard> AllCards { get; }
         Guid Id { get; }
 
-        void TakeNewCard();
+        bool TakeNewCard();
         void Toss(ICoin coin);
         void JoinGame(Game game);
     }
