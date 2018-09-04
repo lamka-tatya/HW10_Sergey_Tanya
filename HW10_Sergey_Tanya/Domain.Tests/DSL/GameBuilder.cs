@@ -6,7 +6,7 @@ using Moq;
 
 namespace Domain.Tests.DSL
 {
-    public class GameBuilder
+    internal class GameBuilder
     {
         private Mock<IBoard> _board = null;
         private Mock<IWipLimit> _wipLimit = null; 
@@ -17,18 +17,18 @@ namespace Domain.Tests.DSL
         {
         }
 
-        internal GameBuilder WithSomePlayer()
+        public GameBuilder WithSomePlayer()
         {
             _players.Add(new Player());
             return this;
         }
 
-        internal GameBuilder WithOtherSomePlayer()
+        public GameBuilder WithOtherSomePlayer()
         {
             return WithSomePlayer();
         }
 
-        internal GameBuilder And()
+        public GameBuilder And()
         {
             return this;
         }
@@ -47,21 +47,21 @@ namespace Domain.Tests.DSL
             return this;
         }
 
-        internal GameBuilder WithReachedWipLimit()
+        public GameBuilder WithReachedWipLimit()
         {
             _wipLimit = new Mock<IWipLimit>();
             _wipLimit.Setup(w => w.IsReached(It.IsAny<uint>())).Returns(true);
             return this;
         }
 
-        internal GameBuilder WithHeadCoin()
+        public GameBuilder WithHeadCoin()
         {
             _coin.Setup(c => c.Toss()).Returns(CoinResult.Head);
 
             return this;
         }
 
-        internal GameBuilder WithTailsCoin()
+        public GameBuilder WithTailsCoin()
         {
             _coin.Setup(c => c.Toss()).Returns(CoinResult.Tails);
             return this;

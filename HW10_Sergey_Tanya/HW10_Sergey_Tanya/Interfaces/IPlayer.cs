@@ -4,7 +4,7 @@ using Domain.Interfaces;
 
 namespace Domain.Interfaces
 {
-    public interface IPlayer
+    internal interface IPlayer
     {
         IEnumerable<ICard> AllCards { get; }
 

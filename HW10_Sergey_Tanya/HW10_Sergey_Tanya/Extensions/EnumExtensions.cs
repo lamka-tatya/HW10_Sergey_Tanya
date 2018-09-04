@@ -8,7 +8,7 @@ namespace Domain.Extensions
 {
     public static class EnumExtensions
     {
-        public static Status Next(this Status currentStatus)
+        internal static Status Next(this Status currentStatus)
         {
             return currentStatus + 1;
         }

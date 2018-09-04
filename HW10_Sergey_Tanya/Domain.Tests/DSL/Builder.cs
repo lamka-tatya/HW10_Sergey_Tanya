@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Tests.DSL
 {
-    public static class Builder
+    internal static class Builder
     {
         public static BoardBuilder CreateBoard => new BoardBuilder();
 

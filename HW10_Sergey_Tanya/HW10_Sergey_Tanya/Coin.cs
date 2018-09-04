@@ -3,7 +3,7 @@ using System;
 
 namespace Domain
 {
-    public class Coin : ICoin
+    internal class Coin : ICoin
     {
         private Random rnd = new Random();
        

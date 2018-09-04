@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Domain
 {
-    public class WipLimit : IWipLimit
+    internal class WipLimit : IWipLimit
     {
         private readonly uint _limit;
 

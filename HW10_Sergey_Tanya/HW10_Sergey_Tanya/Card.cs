@@ -4,7 +4,7 @@ using Domain.Extensions;
 
 namespace Domain
 {
-    public class Card : ICard
+    internal class Card : ICard
     {
         private IBoard _board;
 

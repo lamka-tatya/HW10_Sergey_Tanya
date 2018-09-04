@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface ICard
+    internal interface ICard
     {
         Status Status { get; }
 

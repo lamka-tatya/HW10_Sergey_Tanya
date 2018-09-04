@@ -7,7 +7,7 @@ using Domain.Interfaces;
 
 namespace Domain
 {
-    public class Player : IPlayer
+    internal class Player : IPlayer
     {
         private readonly IList<ICard> _allCards = new List<ICard>();
 
@@ -86,12 +86,12 @@ namespace Domain
 
         private ICard TakeCardReadyForAction()
         {
-            return AllCards.FirstOrDefault(x => !x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
+            return AllCards.FirstOrDefault(x => x.Status != Status.Done && !x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
         }
 
         private ICard TakeBlockedCard()
         {
-            return AllCards.FirstOrDefault(x => x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
+            return AllCards.FirstOrDefault(x => x.Status != Status.Done && x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
         }
 
         public virtual void BlockCard()

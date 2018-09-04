@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public enum CoinResult
+    internal enum CoinResult
     {
         Head,
         Tails

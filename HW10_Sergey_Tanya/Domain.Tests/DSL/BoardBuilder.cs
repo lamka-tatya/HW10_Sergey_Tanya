@@ -4,7 +4,7 @@ using Moq;
 
 namespace Domain.Tests.DSL
 {
-    public class BoardBuilder
+    internal class BoardBuilder
     {
         private Mock<IWipLimit> _wipLimit;
 

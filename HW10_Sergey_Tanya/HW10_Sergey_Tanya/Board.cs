@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class Board : IBoard
+    internal class Board : IBoard
     {
         private IList<ICard> _cards;
         private readonly IWipLimit _wipLimit;

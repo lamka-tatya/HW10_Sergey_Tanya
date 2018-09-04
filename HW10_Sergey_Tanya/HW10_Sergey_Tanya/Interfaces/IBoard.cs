@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IBoard
+    internal interface IBoard
     {
         ICard GiveNewCard();
 

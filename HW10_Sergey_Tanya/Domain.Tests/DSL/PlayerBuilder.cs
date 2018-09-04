@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Domain.Tests.DSL
 {
-    public class PlayerBuilder
+    internal class PlayerBuilder
     {
         private Mock<Player> _player = null;
 

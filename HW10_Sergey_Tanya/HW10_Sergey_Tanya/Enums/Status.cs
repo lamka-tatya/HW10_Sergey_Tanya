@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public enum Status
+    internal enum Status
     {
         New,
         InWork,
