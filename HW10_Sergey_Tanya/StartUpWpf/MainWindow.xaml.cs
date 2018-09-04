@@ -36,7 +36,7 @@ namespace StartUpWpf
                 var emptyValue = new List<Tuple<int, double>>();
                 seriaValuesByPlayersCount.Add(currentPlayersCount, emptyValue);
 
-                for (int currnetWipLimit = 1; currnetWipLimit <= viewModel.MaxWipLimit; currnetWipLimit++)
+                for (int currnetWipLimit = 0; currnetWipLimit <= viewModel.MaxWipLimit; currnetWipLimit++)
                 {
                     var doneCardsCountSum = 0;
 
