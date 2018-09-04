@@ -8,7 +8,7 @@ namespace Domain
 {
     public class GameBuilder
     {
-        private Game _game = null;
+        private IGame _game = null;
 
         public GameBuilder CreateGame(uint wipLimit)
         {

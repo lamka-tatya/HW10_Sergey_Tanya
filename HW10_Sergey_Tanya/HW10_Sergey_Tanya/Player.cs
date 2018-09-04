@@ -11,7 +11,7 @@ namespace Domain
     {
         private readonly IList<ICard> _allCards = new List<ICard>();
 
-        private Game _game = null;
+        private IGame _game = null;
 
         public Guid Id { get; private set; }
 
@@ -22,7 +22,7 @@ namespace Domain
             Id = Guid.NewGuid();
         }
 
-        public void JoinGame(Game game)
+        public void JoinGame(IGame game)
         {
             _game = game;
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    internal class Game
+    internal class Game : IGame
     {
         private IList<IPlayer> _players = new List<IPlayer>();
         private IBoard _board;
