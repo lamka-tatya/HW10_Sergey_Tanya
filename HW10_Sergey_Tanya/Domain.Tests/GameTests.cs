@@ -1,4 +1,5 @@
 ﻿using Domain.Tests.DSL;
+using System.Linq;
 using Xunit;
 
 namespace Domain.Tests
@@ -30,7 +31,71 @@ namespace Domain.Tests
         {
             Assert.Throws<NullCoinException>(() => new Game(new Board(new WipLimit(1)), null));
         }
-    }
-    
+
+        [Fact]
+        public void GameShouldHaveTwoDoneCards_WhenCoinResultIsTails_AndTwoPlayersInGame_AndWipLimitIsOne()
+        {
+            var game = Builder
+                    .CreateGame
+                    .WithSomePlayer()
+                    .And()
+                    .WithOtherSomePlayer()
+                    .And()
+                    .WithTailsCoin()
+                    .And()
+                    .WithWipLimit(1)
+                    .Please();
+
+            game.PlayRound();
+            game.PlayRound();
+            game.PlayRound();
+
+            Assert.Equal(2, game.CardsThat(Status.Done).Count());
+        }
+
+        [Fact]
+        public void GameShouldHaveTwoDoneCards_WhenCoinResultIsHead_AndTwoPlayersInGame_AndWipLimitIsOne()
+        {
+            var game = Builder
+                    .CreateGame
+                    .WithSomePlayer()
+                    .And()
+                    .WithOtherSomePlayer()
+                    .And()
+                    .WithHeadCoin()
+                    .And()
+                    .WithWipLimit(1)
+                    .Please();
+
+            game.PlayRound();
+            game.PlayRound();
+            game.PlayRound();
+
+            Assert.Single(game.CardsThat(Status.InWork));
+        }
+
+        [Fact]
+        public void GameShouldHaveFourDoneCards_WhenCoinResultIsTails_AndTwoPlayersInGame_AndWipLimitIsTwo()
+        {
+            var game = Builder
+                    .CreateGame
+                    .WithSomePlayer()
+                    .And()
+                    .WithOtherSomePlayer()
+                    .And()
+                    .WithTailsCoin()
+                    .And()
+                    .WithWipLimit(2)
+                    .Please();
+
+            game.PlayRound();
+            game.PlayRound();
+            game.PlayRound();
+            game.PlayRound();
+            game.PlayRound();
+
+            Assert.Equal(4, game.CardsThat(Status.Done).Count());
+        }
+    }   
 
 }

@@ -9,7 +9,8 @@ namespace Domain.Tests.DSL
     internal class GameBuilder
     {
         private Mock<IBoard> _board = null;
-        private Mock<IWipLimit> _wipLimit = null; 
+        private Mock<IWipLimit> _wipLimit = null;
+        private uint _wipLimitInt = 10;
         private Mock<ICoin> _coin = new Mock<ICoin>();
         private List<IPlayer> _players = new List<IPlayer>();
 
@@ -47,6 +48,12 @@ namespace Domain.Tests.DSL
             return this;
         }
 
+        public GameBuilder WithWipLimit(uint wipLimit)
+        {
+            _wipLimitInt = wipLimit;
+            return this;
+        }
+
         public GameBuilder WithReachedWipLimit()
         {
             _wipLimit = new Mock<IWipLimit>();
@@ -69,7 +76,7 @@ namespace Domain.Tests.DSL
 
         public Game Please()
         {
-            var wipLimit = _wipLimit != null ? _wipLimit.Object : new WipLimit(10);
+            var wipLimit = _wipLimit != null ? _wipLimit.Object : new WipLimit(_wipLimitInt);
             IBoard board = null;
 
             if (_board != null)
