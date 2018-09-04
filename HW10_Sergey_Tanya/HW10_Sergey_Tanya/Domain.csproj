@@ -55,6 +55,7 @@
     <Compile Include="Card.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameBuilder.cs" />
     <Compile Include="Interfaces\IBoard.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\ICoin.cs" />

@@ -27,6 +27,7 @@ namespace StartUpWpf
             var gamesCount = viewModel.GamesCount;
             var series = new SeriesCollection();
             var seriaValuesByPlayersCount = new Dictionary<int, List<Tuple<int, double>>>();
+            var gameBuilder = new GameBuilder();
 
             viewModel.DescriptionBlock = $"Усредненные результаты при количестве игр {gamesCount} и {roundsCount} раундов в каждой игре";
 
@@ -41,19 +42,11 @@ namespace StartUpWpf
 
                     for (int gameNum = 0; gameNum < gamesCount; gameNum++)
                     {
-                        var game = new Game(new Board(new WipLimit((uint)currnetWipLimit)), new Coin());
-
-                        for (int currentPlayer = 0; currentPlayer < currentPlayersCount; currentPlayer++)
-                        {
-                            game.AddPlayer(new Player());
-                        }
-
-                        for (int roundNum = 0; roundNum < roundsCount; roundNum++)
-                        {
-                            game.PlayRound();
-                        }
-                       
-                        doneCardsCountSum += game.CardsThat(Status.Done).Count();
+                        doneCardsCountSum += gameBuilder
+                            .CreateGame((uint)currnetWipLimit)
+                            .WithPlayers(currentPlayersCount)
+                            .PlayRounds(roundsCount)
+                            .DoneCardsCount();
                     }
 
                     var doneCardsCount = (double)doneCardsCountSum / (double)gamesCount;
@@ -69,7 +62,7 @@ namespace StartUpWpf
                 series.Add(new LineSeries
                 {
                     Title = $"{item.Key} игроков",
-                    PointGeometry = DefaultGeometries.Square,
+                    PointGeometry = DefaultGeometries.Circle,
                     Fill = Brushes.Transparent,
                     Values = new ChartValues<double>(item.Value.Select(x => x.Item2))
                 });
