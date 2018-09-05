@@ -96,6 +96,12 @@ namespace Domain.Tests
 
             Assert.Equal(4, game.CardsCount(Status.Done));
         }
+
+        [Fact]
+        public void GameCouldNotAddEmptyPlayer()
+        {
+            Assert.Throws<NullPlayerException>(() => Builder.CreateGame.Please().AddPlayer(null));
+        }
     }   
 
 }

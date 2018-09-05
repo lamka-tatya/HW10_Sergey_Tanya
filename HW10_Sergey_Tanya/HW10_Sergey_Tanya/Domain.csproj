@@ -49,6 +49,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="Coin.cs" />
     <Compile Include="Exceptions\CardStatusException.cs" />
+    <Compile Include="Exceptions\NullPlayerException.cs" />
     <Compile Include="Exceptions\NullCoinException.cs" />
     <Compile Include="Exceptions\PlayersEmptyException.cs" />
     <Compile Include="Exceptions\NullBoardException.cs" />

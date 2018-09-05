@@ -24,6 +24,10 @@ namespace Domain
 
         public void AddPlayer(IPlayer player)
         {
+            if (player == null)
+            {
+                throw new NullPlayerException();
+            }
             player.JoinGame(this);
 
             player.TryTakeNewCard();
