@@ -103,7 +103,7 @@ namespace Domain
             }
         }
 
-        public bool TryMoveCardNextStatus(ICard card)
+        public virtual bool TryMoveCardNextStatus(ICard card)
         {
             var result = card != null && card.TryMoveNextStatus();
 

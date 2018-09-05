@@ -1,4 +1,5 @@
-﻿using Domain.Tests.DSL;
+﻿using Domain.Interfaces;
+using Domain.Tests.DSL;
 using Moq;
 using Xunit;
 
@@ -94,6 +95,17 @@ namespace Domain.Tests
             game.PlayRound();
 
             playerMock.Verify(p => p.BlockCard(), Times.Once);
+        }
+
+        [Fact]
+        public void PlayerShouldTryMoveCardNextStatus_WhenCoinResultIsTails()
+        {
+            var playerMock = Builder.CreatePlayer.MockPlease();
+            var game = Builder.CreateGame.With(playerMock.Object).And().WithTailsCoin().Please();
+
+            game.PlayRound();
+
+            playerMock.Verify(p => p.TryMoveCardNextStatus(It.IsAny<ICard>()), Times.Once);
         }
     }
 }
