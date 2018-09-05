@@ -59,6 +59,7 @@ namespace Domain
             return _board.CardsThat(status).Count();
         }
 
+
         public void HelpOtherPlayer()
         {
             foreach (var status in new[] { Status.Testing, Status.InWork })
@@ -66,7 +67,7 @@ namespace Domain
                 var cardToMove = _board.CardsThat(status).FirstOrDefault(x => !x.IsBlocked);
                 var cardToUnBlock = _board.CardsThat(status).FirstOrDefault(x => x.IsBlocked);
 
-                if (cardToMove != null && cardToMove.TryMoveNextStatus())
+                if (cardToMove != null && GetPlayerById(cardToMove.PlayerId).TryMoveCardNextStatus(cardToMove))
                 {
                     return;
                 }
@@ -76,6 +77,11 @@ namespace Domain
                     return;
                 }
             }
+        }
+
+        private IPlayer GetPlayerById(Guid playerId)
+        {
+            return _players.FirstOrDefault(p => p.Id == playerId);
         }
     }
 }

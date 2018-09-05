@@ -107,7 +107,7 @@ namespace Domain
         {
             var result = card != null && card.TryMoveNextStatus();
 
-            if (result && card.Status == Status.Done)
+            if (result && (card.Status == Status.Done))
             {
                 _allCards.Remove(card);
             }
