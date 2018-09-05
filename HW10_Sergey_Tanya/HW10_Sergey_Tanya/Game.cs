@@ -32,7 +32,7 @@ namespace Domain
 
             player.TryTakeNewCard();
 
-            _players.Add(player); // todo проверить на null
+            _players.Add(player);
         }
 
         public ICard GiveNewCard()

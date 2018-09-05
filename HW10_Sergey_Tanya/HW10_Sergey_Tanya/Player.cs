@@ -30,7 +30,7 @@ namespace Domain
         public virtual bool TryTakeNewCard()
         {
             var card = _game.GiveNewCard();
-            var result = card != null && card.TryMoveNextStatus();
+            var result = TryMoveCardNextStatus(card);
             if (result)
             {
                 _allCards.Add(card);
@@ -65,8 +65,7 @@ namespace Domain
             {
                 var card = TakeCardReadyForAction();
 
-                // todo возможно порядок обработки стоит поменять
-                if((card != null && card.TryMoveNextStatus()) ||
+                if(TryMoveCardNextStatus(card) ||
                     TryTakeNewCard() ||
                     TryUnblockCard())
                 {
@@ -86,12 +85,12 @@ namespace Domain
 
         private ICard TakeCardReadyForAction()
         {
-            return AllCards.FirstOrDefault(x => x.Status != Status.Done && !x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
+            return AllCards.FirstOrDefault(x => !x.IsBlocked); 
         }
 
         private ICard TakeBlockedCard()
         {
-            return AllCards.FirstOrDefault(x => x.Status != Status.Done && x.IsBlocked); // TODO добавить проверку на done, либо убирать карту из карт игрока
+            return AllCards.FirstOrDefault(x => x.IsBlocked); 
         }
 
         public virtual void BlockCard()
@@ -102,6 +101,17 @@ namespace Domain
             {
                 card.Block();
             }
+        }
+
+        public bool TryMoveCardNextStatus(ICard card)
+        {
+            var result = card != null && card.TryMoveNextStatus();
+
+            if (result && card.Status == Status.Done)
+            {
+                _allCards.Remove(card);
+            }
+            return result;
         }
     }
 }
