@@ -27,7 +27,6 @@ namespace StartUpWpf
             var gamesCount = viewModel.GamesCount;
             var series = new SeriesCollection();
             var seriaValuesByPlayersCount = new Dictionary<int, List<Tuple<int, double>>>();
-            var gameBuilder = new GameBuilder();
 
             viewModel.DescriptionBlock = $"Усредненные результаты при количестве игр {gamesCount} и {roundsCount} раундов в каждой игре";
 
@@ -42,7 +41,7 @@ namespace StartUpWpf
 
                     for (int gameNum = 0; gameNum < gamesCount; gameNum++)
                     {
-                        doneCardsCountSum += gameBuilder
+                        doneCardsCountSum += GameBuilder
                             .CreateGame((uint)currnetWipLimit)
                             .WithPlayers(currentPlayersCount)
                             .PlayRounds(roundsCount)

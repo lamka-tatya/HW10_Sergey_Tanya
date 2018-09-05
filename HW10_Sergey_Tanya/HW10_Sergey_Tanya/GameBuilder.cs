@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Domain
 {
-    public class GameBuilder
+    public static class GameBuilder
+    {
+        public static GameCreator CreateGame(uint wipLimit) => new GameCreator(wipLimit);
+    }
+
+    public class GameCreator
     {
         private IGame _game = null;
 
-        public GameBuilder CreateGame(uint wipLimit)
+        public GameCreator(uint wipLimit)
         {
             _game = new Game(new Board(new WipLimit(wipLimit)), new Coin());
-
-            return this;
         }
 
-        public GameBuilder WithPlayers(int playerCount)
+        public GameCreator WithPlayers(int playerCount)
         {
             for (int currentPlayer = 0; currentPlayer < playerCount; currentPlayer++)
             {
@@ -27,7 +26,7 @@ namespace Domain
             return this;
         }
 
-        public GameBuilder PlayRounds(int roundsCount)
+        public GameCreator PlayRounds(int roundsCount)
         {
             for (int roundNum = 0; roundNum < roundsCount; roundNum++)
             {
