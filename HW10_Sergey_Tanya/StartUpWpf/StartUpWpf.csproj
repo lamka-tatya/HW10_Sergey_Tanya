@@ -124,13 +124,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HW10_Sergey_Tanya\Domain.csproj">
+    <Resource Include="if_Jigsaw-01_1585912.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{7014d76d-8ef9-4902-ba31-f1a4d0bd137e}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="if_Jigsaw-01_1585912.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

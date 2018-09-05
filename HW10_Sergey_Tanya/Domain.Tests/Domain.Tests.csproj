@@ -94,8 +94,8 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HW10_Sergey_Tanya\Domain.csproj">
-      <Project>{7014D76D-8EF9-4902-BA31-F1A4D0BD137E}</Project>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{7014d76d-8ef9-4902-ba31-f1a4d0bd137e}</Project>
       <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
