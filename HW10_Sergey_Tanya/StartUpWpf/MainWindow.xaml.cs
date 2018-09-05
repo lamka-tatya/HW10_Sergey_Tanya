@@ -18,23 +18,54 @@ namespace StartUpWpf
         public MainWindow()
         {
             InitializeComponent();
-            UpdateViewModel();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            UpdateViewModel();
+            await UpdateViewModel();
         }
 
-        private void UpdateViewModel()
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            await UpdateViewModel();
+        }
+
+        private async Task UpdateViewModel()
         {
             var viewModel = (MultipleSeriesVm)DataContext;
             var roundsCount = viewModel.RoundsCount;
             var gamesCount = viewModel.GamesCount;
             var series = new SeriesCollection();
-            var seriaValuesByPlayersCount = new Dictionary<int, List<Tuple<int, double>>>();
 
+            viewModel.PlayBtnIsEnabled = false;
+            viewModel.Series = new SeriesCollection();
+            viewModel.DescriptionBlock = $"Идет построение...";
+            viewModel.GameProgressMaximum = viewModel.MaxPlayersCount * (viewModel.MaxWipLimit + 1) * gamesCount;
+
+            var seriaValuesByPlayersCount = await Task.Run(() => { return GetSeriaValues(viewModel, roundsCount, gamesCount); });
+
+            viewModel.PlayBtnIsEnabled = true;
+            viewModel.GameProgress = 0;
             viewModel.DescriptionBlock = $"Усредненные результаты при количестве игр {gamesCount} и {roundsCount} раундов в каждой игре";
+            viewModel.Labels = seriaValuesByPlayersCount.First().Value.Select(x => x.Item1 == 0 ? "no limit" : x.Item1.ToString()).ToArray();
+
+            foreach (var item in seriaValuesByPlayersCount)
+            {
+                series.Add(new LineSeries
+                {
+                    Title = $"{item.Key} игроков",
+                    PointGeometry = DefaultGeometries.Circle,
+                    Fill = Brushes.Transparent,
+                    Values = new ChartValues<double>(item.Value.Select(x => x.Item2))
+                });
+            }
+
+            viewModel.Series = series;
+        }
+
+        private Dictionary<int, List<Tuple<int, double>>> GetSeriaValues(MultipleSeriesVm viewModel, int roundsCount, int gamesCount)
+        {
+            var seriaValuesByPlayersCount = new Dictionary<int, List<Tuple<int, double>>>();
 
             for (int currentPlayersCount = 1; currentPlayersCount < viewModel.MaxPlayersCount + 1; currentPlayersCount++)
             {
@@ -52,6 +83,8 @@ namespace StartUpWpf
                             .WithPlayers(currentPlayersCount)
                             .PlayRounds(roundsCount)
                             .DoneCardsCount();
+
+                        viewModel.GameProgress++;
                     }
 
                     var doneCardsCount = (double)doneCardsCountSum / (double)gamesCount;
@@ -60,20 +93,7 @@ namespace StartUpWpf
                 }
             }
 
-            viewModel.Labels = seriaValuesByPlayersCount.First().Value.Select(x => x.Item1 == 0 ? "no limit" : x.Item1.ToString()).ToArray();
-
-            foreach (var item in seriaValuesByPlayersCount)
-            {
-                series.Add(new LineSeries
-                {
-                    Title = $"{item.Key} игроков",
-                    PointGeometry = DefaultGeometries.Circle,
-                    Fill = Brushes.Transparent,
-                    Values = new ChartValues<double>(item.Value.Select(x => x.Item2))
-                });
-            }
-
-            viewModel.Series = series;
+            return seriaValuesByPlayersCount;
         }
     }
 }

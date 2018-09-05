@@ -10,8 +10,11 @@ namespace StartUpWpf
         private int _maxWipLimit = 5;
         private int _roundsCount = 15;
         private int _gamesCount = 1000;
+        private int _gameProgress = 0;
+        private int _gameProgressMaximum = 0;
         private string _descriptionBlock = "Для построения графиков нажмите \"Начать игру\"";
         private SeriesCollection _series;
+        private bool _playBtnIsEnabled = true;
 
         public int MaxPlayersCount
         {
@@ -63,6 +66,36 @@ namespace StartUpWpf
             {
                 _series = value;
                 OnPropertyRaised("Series");
+            }
+        }
+
+        public int GameProgress
+        {
+            get => _gameProgress;
+            set
+            {
+                _gameProgress = value;
+                OnPropertyRaised("GameProgress");
+            }
+        }
+
+        public int GameProgressMaximum
+        {
+            get => _gameProgressMaximum;
+            set
+            {
+                _gameProgressMaximum = value;
+                OnPropertyRaised("GameProgressMaximum");
+            }
+        }
+
+        public bool PlayBtnIsEnabled
+        {
+            get => _playBtnIsEnabled;
+            set
+            {
+                _playBtnIsEnabled = value;
+                OnPropertyRaised("PlayBtnIsEnabled");
             }
         }
 
