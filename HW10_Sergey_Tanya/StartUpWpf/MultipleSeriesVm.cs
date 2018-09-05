@@ -6,7 +6,7 @@ namespace StartUpWpf
     public class MultipleSeriesVm : INotifyPropertyChanged
     {
         private string[] _labels;
-        private int _maxPlayersCount = 10;
+        private int _maxPlayersCount = 15;
         private int _maxWipLimit = 5;
         private int _roundsCount = 15;
         private int _gamesCount = 1000;

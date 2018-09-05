@@ -27,22 +27,23 @@ namespace StartUpWpf
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            await UpdateViewModel();
+            await UpdateViewModel(new int[] { 3, 5, 10 });
         }
 
-        private async Task UpdateViewModel()
+        private async Task UpdateViewModel(int[] playersCountsSet = null)
         {
             var viewModel = (MultipleSeriesVm)DataContext;
             var roundsCount = viewModel.RoundsCount;
             var gamesCount = viewModel.GamesCount;
+            var playersCounts = (playersCountsSet != null && playersCountsSet.Length > 0) ? playersCountsSet : PlayersCountsSequence(1, viewModel.MaxPlayersCount + 1);
             var series = new SeriesCollection();
 
             viewModel.PlayBtnIsEnabled = false;
             viewModel.Series = new SeriesCollection();
             viewModel.DescriptionBlock = $"Идет построение...";
-            viewModel.GameProgressMaximum = viewModel.MaxPlayersCount * (viewModel.MaxWipLimit + 1) * gamesCount;
+            viewModel.GameProgressMaximum = playersCounts.Count() * (viewModel.MaxWipLimit + 1) * gamesCount;
 
-            var seriaValuesByPlayersCount = await Task.Run(() => { return GetSeriaValues(viewModel, roundsCount, gamesCount); });
+            var seriaValuesByPlayersCount = await Task.Run(() => { return GetSeriaValues(viewModel, roundsCount, gamesCount, playersCounts); });
 
             viewModel.PlayBtnIsEnabled = true;
             viewModel.GameProgress = 0;
@@ -63,11 +64,11 @@ namespace StartUpWpf
             viewModel.Series = series;
         }
 
-        private Dictionary<int, List<Tuple<int, double>>> GetSeriaValues(MultipleSeriesVm viewModel, int roundsCount, int gamesCount)
+        private Dictionary<int, List<Tuple<int, double>>> GetSeriaValues(MultipleSeriesVm viewModel, int roundsCount, int gamesCount, IEnumerable<int> playersCounts)
         {
             var seriaValuesByPlayersCount = new Dictionary<int, List<Tuple<int, double>>>();
 
-            for (int currentPlayersCount = 1; currentPlayersCount < viewModel.MaxPlayersCount + 1; currentPlayersCount++)
+            foreach (int currentPlayersCount in playersCounts)
             {
                 var emptyValue = new List<Tuple<int, double>>();
                 seriaValuesByPlayersCount.Add(currentPlayersCount, emptyValue);
@@ -94,6 +95,14 @@ namespace StartUpWpf
             }
 
             return seriaValuesByPlayersCount;
+        }
+
+        private IEnumerable<int> PlayersCountsSequence(int n1, int n2)
+        {
+            while (n1 <= n2)
+            {
+                yield return n1 += 3;
+            }
         }
     }
 }
