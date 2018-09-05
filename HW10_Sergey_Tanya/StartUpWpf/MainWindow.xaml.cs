@@ -55,7 +55,7 @@ namespace StartUpWpf
                 }
             }
 
-            viewModel.Labels = seriaValuesByPlayersCount.First().Value.Select(x => x.Item1.ToString()).ToArray();
+            viewModel.Labels = seriaValuesByPlayersCount.First().Value.Select(x => x.Item1 == 0 ? "no limit" : x.Item1.ToString()).ToArray();
 
             foreach (var item in seriaValuesByPlayersCount)
             {

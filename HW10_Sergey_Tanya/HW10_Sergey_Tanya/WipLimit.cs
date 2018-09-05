@@ -12,12 +12,12 @@ namespace Domain
 
         public WipLimit(uint limit)
         {
-            _limit = limit;// TODO null exc
+            _limit = limit;
         }
 
         public bool IsReached(uint count)
         {
-            return _limit == count;
+            return _limit != 0 && _limit == count;
         }
     }
 }
