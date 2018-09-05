@@ -14,8 +14,9 @@ namespace Domain
 
         public Card(IBoard board)
         {
-            _board = board; // todo проверять на null
+            _board = board ?? throw new NullBoardException();
             Status = Status.New;
+            
         }
 
         public bool TryMoveNextStatus()

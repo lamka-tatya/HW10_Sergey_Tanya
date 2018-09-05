@@ -1,5 +1,6 @@
 ﻿using Domain.Extensions;
 using Domain.Tests.DSL;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -91,6 +92,12 @@ namespace Domain.Tests
             card.TryMoveNextStatus();
 
             Assert.Equal(Status.Done, card.Status);
+        }
+
+        [Fact]
+        public void ShouldNotBeCreatedWithoutBoard()
+        {
+            Assert.Throws<NullBoardException>(() => new Card(null));
         }
     }
 }
