@@ -18,9 +18,15 @@ namespace StartUpWpf
         public MainWindow()
         {
             InitializeComponent();
+            UpdateViewModel();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateViewModel();
+        }
+
+        private void UpdateViewModel()
         {
             var viewModel = (MultipleSeriesVm)DataContext;
             var roundsCount = viewModel.RoundsCount;
