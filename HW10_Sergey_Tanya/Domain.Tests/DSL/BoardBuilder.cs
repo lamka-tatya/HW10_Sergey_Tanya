@@ -1,6 +1,6 @@
-﻿using System;
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
 using Moq;
+using System;
 
 namespace Domain.Tests.DSL
 {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Tests.DSL
+﻿namespace Domain.Tests.DSL
 {
     internal static class Builder
     {
@@ -13,6 +7,5 @@ namespace Domain.Tests.DSL
         public static GameBuilder CreateGame => new GameBuilder();
 
         public static PlayerBuilder CreatePlayer => new PlayerBuilder();
-
     }
 }

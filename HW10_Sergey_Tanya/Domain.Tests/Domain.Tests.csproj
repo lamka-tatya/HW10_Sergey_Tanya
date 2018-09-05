@@ -77,7 +77,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoardTests.cs" />
     <Compile Include="CardTests.cs" />
     <Compile Include="DSL\BoardBuilder.cs" />
     <Compile Include="DSL\Builder.cs" />

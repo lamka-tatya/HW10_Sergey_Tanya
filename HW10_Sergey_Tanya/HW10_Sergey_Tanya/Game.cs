@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain
 {
@@ -14,6 +12,7 @@ namespace Domain
         private ICoin _coin;
 
         public IEnumerable<ICard> DoneCards => _board.CardsThat(Status.Done);
+
         public IEnumerable<ICard> WorkCards => _board.CardsThat(Status.InWork);
 
         public Game(IBoard board, ICoin coin)
@@ -28,8 +27,8 @@ namespace Domain
             {
                 throw new NullPlayerException();
             }
-            player.JoinGame(this);
 
+            player.JoinGame(this);
             player.TryTakeNewCard();
 
             _players.Add(player);
@@ -37,8 +36,7 @@ namespace Domain
 
         public ICard GiveNewCard()
         {
-            var card = _board.GiveNewCard();
-            return card;
+            return _board.GiveNewCard();
         }
 
         public void PlayRound()
@@ -49,16 +47,10 @@ namespace Domain
             }
         }
 
-        public IEnumerable<IPlayer> TakePlayers()
-        {
-            return _players;
-        }
-
         public int CardsCount(Status status)
         {
             return _board.CardsThat(status).Count();
         }
-
 
         public void HelpOtherPlayer()
         {
@@ -71,10 +63,10 @@ namespace Domain
                 {
                     return;
                 }
-                else if (cardToUnBlock != null)
+
+                if (cardToUnBlock != null)
                 {
                     cardToUnBlock.UnBlock();
-                    return;
                 }
             }
         }

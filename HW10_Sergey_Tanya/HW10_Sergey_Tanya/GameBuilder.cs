@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Domain
+﻿namespace Domain
 {
     public static class GameBuilder
     {

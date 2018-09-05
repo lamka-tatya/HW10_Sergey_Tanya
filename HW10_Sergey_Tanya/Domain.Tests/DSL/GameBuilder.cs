@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Domain;
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
 using Moq;
+using System.Collections.Generic;
 
 namespace Domain.Tests.DSL
 {
@@ -77,8 +75,8 @@ namespace Domain.Tests.DSL
         public Game Please()
         {
             var wipLimit = _wipLimit != null ? _wipLimit.Object : new WipLimit(_wipLimitInt);
-            IBoard board = null;
 
+            IBoard board = null;
             if (_board != null)
             {
                 _board.Setup(x => x.WipLimit).Returns(wipLimit);
@@ -98,6 +96,5 @@ namespace Domain.Tests.DSL
 
             return game;
         }
-
     }
 }

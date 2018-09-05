@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Interfaces;
 
 namespace Domain
 {
@@ -83,16 +81,6 @@ namespace Domain
             _game.HelpOtherPlayer();
         }
 
-        private ICard TakeCardReadyForAction()
-        {
-            return AllCards.FirstOrDefault(x => !x.IsBlocked); 
-        }
-
-        private ICard TakeBlockedCard()
-        {
-            return AllCards.FirstOrDefault(x => x.IsBlocked); 
-        }
-
         public virtual void BlockCard()
         {
             var card = TakeCardReadyForAction();
@@ -112,6 +100,16 @@ namespace Domain
                 _allCards.Remove(card);
             }
             return result;
+        }
+
+        private ICard TakeCardReadyForAction()
+        {
+            return AllCards.FirstOrDefault(x => !x.IsBlocked);
+        }
+
+        private ICard TakeBlockedCard()
+        {
+            return AllCards.FirstOrDefault(x => x.IsBlocked);
         }
     }
 }

@@ -9,7 +9,9 @@ namespace Domain
         private IBoard _board;
 
         public Status Status { get; private set; }
+
         public Guid PlayerId { get; private set; }
+
         public bool IsBlocked { get; private set; }
 
         public Card(IBoard board)

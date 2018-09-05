@@ -57,15 +57,13 @@ namespace Domain.Tests
         public void ShouldNotMoveInWorkStatus_WhenInWorkWipLimitIsReached()
         {
             var board = Builder.CreateBoard.WithWipLimit((uint)1).Please();
-
             var inWorkCard = board.GiveNewCard();
-            inWorkCard.TryMoveNextStatus();
 
+            inWorkCard.TryMoveNextStatus();
             var newCard = board.GiveNewCard();
 
             Assert.False(newCard.TryMoveNextStatus());
         }
-
 
         [Fact]
         public void ShouldNotMoveInTestStatus_WhenTestWipLimitIsReached()

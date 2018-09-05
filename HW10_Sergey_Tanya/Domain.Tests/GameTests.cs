@@ -25,7 +25,6 @@ namespace Domain.Tests
             Assert.Throws<NullBoardException>(() => new Game(null, new Coin()));
         }
 
-
         [Fact]
         public void GameWithoutCoin_CanNotBeCreated()
         {
@@ -103,5 +102,4 @@ namespace Domain.Tests
             Assert.Throws<NullPlayerException>(() => Builder.CreateGame.Please().AddPlayer(null));
         }
     }   
-
 }
