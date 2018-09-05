@@ -35,7 +35,7 @@ namespace StartUpWpf
             var viewModel = (MultipleSeriesVm)DataContext;
             var roundsCount = viewModel.RoundsCount;
             var gamesCount = viewModel.GamesCount;
-            var playersCounts = (playersCountsSet != null && playersCountsSet.Length > 0) ? playersCountsSet : PlayersCountsSequence(1, viewModel.MaxPlayersCount + 1);
+            var playersCounts = (playersCountsSet != null && playersCountsSet.Length > 0) ? playersCountsSet : PlayersCountsSequence(1, viewModel.MaxPlayersCount);
             var series = new SeriesCollection();
 
             viewModel.PlayBtnIsEnabled = false;
@@ -101,7 +101,8 @@ namespace StartUpWpf
         {
             while (n1 <= n2)
             {
-                yield return n1 += 3;
+                yield return n1;
+                n1 += 2;
             }
         }
     }
