@@ -38,7 +38,7 @@ namespace Domain
 
         public int DoneCardsCount()
         {
-            return _game.CardsThat(Status.Done).Count();
+            return _game.CardsCount(Status.Done);
         }
     }
 }

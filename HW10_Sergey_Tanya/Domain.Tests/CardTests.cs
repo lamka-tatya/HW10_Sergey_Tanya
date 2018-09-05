@@ -12,7 +12,7 @@ namespace Domain.Tests
         {
             var player = Builder.CreatePlayer.Please();
             var game = Builder.CreateGame.With(player).Please();
-            var card = game.CardsThat(Status.InWork).First();
+            var card = game.WorkCards.First();
 
             Assert.Equal(player.Id, card.PlayerId);
         }
@@ -24,7 +24,7 @@ namespace Domain.Tests
 
             game.PlayRound();
 
-            Assert.True(game.CardsThat(Status.InWork).First().IsBlocked);
+            Assert.True(game.WorkCards.First().IsBlocked);
         }
 
         [Fact]

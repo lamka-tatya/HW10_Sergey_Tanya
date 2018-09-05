@@ -50,7 +50,7 @@ namespace Domain.Tests
             game.PlayRound();
             game.PlayRound();
 
-            Assert.Equal(2, game.CardsThat(Status.Done).Count());
+            Assert.Equal(2, game.CardsCount(Status.Done));
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace Domain.Tests
             game.PlayRound();
             game.PlayRound();
 
-            Assert.Single(game.CardsThat(Status.InWork));
+            Assert.Single(game.WorkCards);
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace Domain.Tests
             game.PlayRound();
             game.PlayRound();
 
-            Assert.Equal(4, game.CardsThat(Status.Done).Count());
+            Assert.Equal(4, game.CardsCount(Status.Done));
         }
     }   
 

@@ -13,6 +13,9 @@ namespace Domain
         private IBoard _board;
         private ICoin _coin;
 
+        public IEnumerable<ICard> DoneCards => _board.CardsThat(Status.Done);
+        public IEnumerable<ICard> WorkCards => _board.CardsThat(Status.InWork);
+
         public Game(IBoard board, ICoin coin)
         {
             _coin = coin ?? throw new NullCoinException();
@@ -42,11 +45,6 @@ namespace Domain
             }
         }
 
-        public IEnumerable<ICard> CardsThat(Status status)
-        {
-            return _board.CardsThat(status);
-        }
-
         public IEnumerable<IPlayer> TakePlayers()
         {
             return _players;
@@ -54,7 +52,7 @@ namespace Domain
 
         public int CardsCount(Status status)
         {
-            return CardsThat(status).Count();
+            return _board.CardsThat(status).Count();
         }
 
         public void HelpOtherPlayer()
