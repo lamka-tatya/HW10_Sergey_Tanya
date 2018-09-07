@@ -6,7 +6,7 @@ namespace Domain
     internal class Coin : ICoin
     {
         private Random rnd = new Random();
-       
+
         public CoinResult Toss()
         {
             var res = rnd.Next(1, 10);
