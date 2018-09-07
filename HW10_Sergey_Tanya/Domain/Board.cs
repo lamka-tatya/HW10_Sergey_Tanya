@@ -10,14 +10,13 @@ namespace Domain
     internal class Board : IBoard
     {
         private IList<ICard> _cards;
-        private readonly IWipLimit _wipLimit;
 
-        public IWipLimit WipLimit => _wipLimit;
+        public IWipLimit WipLimit { get; }
 
         public Board(IWipLimit wipLimit)
         {
             _cards = new List<ICard>();
-            _wipLimit = wipLimit;
+            WipLimit = wipLimit;
         }
 
         public ICard GiveNewCard()
