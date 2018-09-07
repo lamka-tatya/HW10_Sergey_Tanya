@@ -38,6 +38,7 @@ namespace Domain
             {
                 return false;
             }
+
             return WipLimit.IsReached((uint)CardsThat(status).Count());
         }
     }
