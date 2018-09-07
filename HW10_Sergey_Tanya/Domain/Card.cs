@@ -18,7 +18,6 @@ namespace Domain
         {
             _board = board ?? throw new NullBoardException();
             Status = Status.New;
-            
         }
 
         public bool TryMoveNextStatus()
