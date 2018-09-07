@@ -4,6 +4,8 @@ namespace Domain.Interfaces
 {
     internal interface ICard
     {
+        Guid Id { get; }
+
         Status Status { get; }
 
         bool IsBlocked { get; }

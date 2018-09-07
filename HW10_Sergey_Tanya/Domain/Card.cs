@@ -8,6 +8,8 @@ namespace Domain
     {
         private IBoard _board;
 
+        public Guid Id { get; private set; }
+
         public Status Status { get; private set; }
 
         public Guid PlayerId { get; private set; }
@@ -16,6 +18,7 @@ namespace Domain
 
         public Card(IBoard board)
         {
+            Id = Guid.NewGuid();
             _board = board ?? throw new NullBoardException();
             Status = Status.New;
         }

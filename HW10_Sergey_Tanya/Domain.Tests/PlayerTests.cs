@@ -1,6 +1,7 @@
 ﻿using Domain.Interfaces;
 using Domain.Tests.DSL;
 using Moq;
+using System.Linq;
 using Xunit;
 
 namespace Domain.Tests
@@ -12,29 +13,30 @@ namespace Domain.Tests
         {
             var playerMock = Builder.CreatePlayer.MockPlease();
 
-            var game = Builder.CreateGame.With(playerMock.Object).Please();
+            var game = Builder.CreateGame.With(playerMock).Please();
 
-            playerMock.Verify(p => p.TryTakeNewCard(), Times.Once);
+            Assert.Single(playerMock.Object.AllCards);
         }
 
         [Fact]
         public void PlayerShouldTryTakeOneMoreCard_WhenCoinResultIsTails_AndHasNoCardsToMove()
         {
             var playerMock = Builder.CreatePlayer.WithBlockedCards().MockPlease();
-            var game = Builder.CreateGame.With(playerMock.Object).WithTailsCoin().Please();
+            var game = Builder.CreateGame.With(playerMock).WithTailsCoin().Please();
+            var prevCardsCount = playerMock.Object.AllCards.Count();
 
             game.PlayRound();
 
-            playerMock.Verify(p => p.TryTakeNewCard(), Times.Exactly(2));
+            Assert.Equal(++prevCardsCount, playerMock.Object.AllCards.Count());
         }
 
         [Fact]
         public void PlayerShouldNotTakeNewCard_WhenInWorkWipLimitIsReached()
         {
-            var player = Builder.CreatePlayer.Please();
+            var player = Builder.CreatePlayer.MockPlease();
             var game = Builder.CreateGame.With(player).And().WithReachedWipLimit().Please();
 
-            var newCardResult = player.TryTakeNewCard();
+            var newCardResult = player.Object.TryTakeNewCard();
 
             Assert.False(newCardResult);
         }
@@ -44,7 +46,7 @@ namespace Domain.Tests
         {
             var playerMock = Builder.CreatePlayer.WithBlockedCards().MockPlease();
             var game = Builder.CreateGame
-                .With(playerMock.Object)
+                .With(playerMock)
                 .And()
                 .WithTailsCoin()
                 .And()
@@ -60,7 +62,7 @@ namespace Domain.Tests
         {
             var playerMock = Builder.CreatePlayer.MockPlease();
             var game = Builder.CreateGame
-                .With(playerMock.Object)
+                .With(playerMock)
                 .And()
                 .WithTailsCoin()
                 .And()
@@ -75,37 +77,14 @@ namespace Domain.Tests
         public void PlayerShouldTryTakeNewCard_WhenCoinResultIsHead()
         {
             var playerMock = Builder.CreatePlayer.MockPlease();
-            var game = Builder.CreateGame.With(playerMock.Object)
+            var game = Builder.CreateGame.With(playerMock)
                                          .And()
                                          .WithHeadCoin().Please();
+            var prevCardsCount = playerMock.Object.AllCards.Count();
 
             game.PlayRound();
 
-            playerMock.Verify(p => p.TryTakeNewCard(), Times.Exactly(2));
-        }
-
-        [Fact]
-        public void PlayerShouldTryBlockCard_WhenCoinResultIsHead()
-        {
-            var playerMock = Builder.CreatePlayer.MockPlease();
-            var game = Builder.CreateGame.With(playerMock.Object)
-                                         .And()
-                                         .WithHeadCoin().Please();
-
-            game.PlayRound();
-
-            playerMock.Verify(p => p.BlockCard(), Times.Once);
-        }
-
-        [Fact]
-        public void PlayerShouldTryMoveCardNextStatus_WhenCoinResultIsTails()
-        {
-            var playerMock = Builder.CreatePlayer.MockPlease();
-            var game = Builder.CreateGame.With(playerMock.Object).And().WithTailsCoin().Please();
-
-            game.PlayRound();
-
-            playerMock.Verify(p => p.TryMoveCardNextStatus(It.IsAny<ICard>()), Times.Once);
+            Assert.Equal(++prevCardsCount, playerMock.Object.AllCards.Count());
         }
     }
 }

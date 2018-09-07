@@ -9,15 +9,13 @@ namespace Domain
     {
         private IList<IPlayer> _players = new List<IPlayer>();
         private IBoard _board;
-        private ICoin _coin;
 
         public IEnumerable<ICard> DoneCards => _board.CardsThat(Status.Done);
 
         public IEnumerable<ICard> WorkCards => _board.CardsThat(Status.InWork);
 
-        public Game(IBoard board, ICoin coin)
+        public Game(IBoard board)
         {
-            _coin = coin ?? throw new NullCoinException();
             _board = board ?? throw new NullBoardException();
         }
 
@@ -43,7 +41,7 @@ namespace Domain
         {
             foreach (var player in _players)
             {
-                player.Toss(_coin);
+                player.Toss();
             }
         }
 

@@ -15,7 +15,9 @@ namespace Domain.Interfaces
 
         bool TryMoveCardNextStatus(ICard card);
 
-        void Toss(ICoin coin);
+        void Toss();
+
+        CoinResult TossCoin();
 
         void JoinGame(IGame game);
 

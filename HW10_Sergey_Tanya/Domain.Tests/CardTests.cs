@@ -11,11 +11,11 @@ namespace Domain.Tests
         [Fact]
         public void CardsPlayerIdShouldBeEqualsPlayersId_WhenGameCreatedWithTheOnlyOnePlayer()
         {
-            var player = Builder.CreatePlayer.Please();
+            var player = Builder.CreatePlayer.MockPlease();
             var game = Builder.CreateGame.With(player).Please();
             var card = game.WorkCards.First();
 
-            Assert.Equal(player.Id, card.PlayerId);
+            Assert.Equal(player.Object.Id, card.PlayerId);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void ShouldNotMoveInWorkStatus_WhenInWorkWipLimitIsReached()
+        public void CardShouldNotMoveInWorkStatus_WhenInWorkWipLimitIsReached()
         {
             var board = Builder.CreateBoard.WithWipLimit((uint)1).Please();
             var inWorkCard = board.GiveNewCard();
@@ -66,7 +66,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void ShouldNotMoveInTestStatus_WhenTestWipLimitIsReached()
+        public void CardShouldNotMoveInTestStatus_WhenTestWipLimitIsReached()
         {
             var board = Builder.CreateBoard.WithWipLimit((uint)1).WithCardInTestStatus().Please();
             var inWorkCard = board.GiveNewCard();
@@ -77,7 +77,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void ShouldCanMoveCardInDoneStatus_WhenWipLimitIsReached()
+        public void CardShouldCanMoveCardInDoneStatus_WhenWipLimitIsReached()
         {
             var board = Builder.CreateBoard.WithWipLimit((uint)1)
                                            .And()
@@ -93,7 +93,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void ShouldNotBeCreatedWithoutBoard()
+        public void CardShouldNotBeCreatedWithoutBoard()
         {
             Assert.Throws<NullBoardException>(() => new Card(null));
         }

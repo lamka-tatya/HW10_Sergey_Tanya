@@ -9,8 +9,8 @@ namespace Domain.Tests.DSL
         private Mock<IBoard> _board = null;
         private Mock<IWipLimit> _wipLimit = null;
         private uint _wipLimitInt = 10;
-        private Mock<ICoin> _coin = new Mock<ICoin>();
-        private List<IPlayer> _players = new List<IPlayer>();
+        private List<Mock<Player>> _players = new List<Mock<Player>>();
+        private CoinResult? _coinResult = CoinResult.Head;
 
         public GameBuilder()
         {
@@ -18,7 +18,7 @@ namespace Domain.Tests.DSL
 
         public GameBuilder WithSomePlayer()
         {
-            _players.Add(new Player());
+            _players.Add(new Mock<Player>());
             return this;
         }
 
@@ -32,7 +32,7 @@ namespace Domain.Tests.DSL
             return this;
         }
 
-        public GameBuilder With(IPlayer player)
+        public GameBuilder With(Mock<Player> player)
         {
             _players.Add(player);
             return this;
@@ -61,14 +61,14 @@ namespace Domain.Tests.DSL
 
         public GameBuilder WithHeadCoin()
         {
-            _coin.Setup(c => c.Toss()).Returns(CoinResult.Head);
+            _coinResult = CoinResult.Head;
 
             return this;
         }
 
         public GameBuilder WithTailsCoin()
         {
-            _coin.Setup(c => c.Toss()).Returns(CoinResult.Tails);
+            _coinResult = CoinResult.Tails;
             return this;
         }
 
@@ -87,11 +87,16 @@ namespace Domain.Tests.DSL
                 board = new Board(wipLimit);
             }
 
-            var game = new Game(board, _coin.Object);
+            var game = new Game(board);
 
             foreach (var player in _players)
             {
-                game.AddPlayer(player);
+                if (_coinResult.HasValue)
+                {
+                    player.Setup(p => p.TossCoin()).Returns(_coinResult.Value);
+                }
+
+                game.AddPlayer(player.Object);
             }
 
             return game;

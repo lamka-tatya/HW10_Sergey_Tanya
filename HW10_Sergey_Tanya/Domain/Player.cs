@@ -13,7 +13,7 @@ namespace Domain
 
         public Guid Id { get; private set; }
 
-        public virtual IEnumerable<ICard> AllCards => _allCards;
+        public IEnumerable<ICard> AllCards => _allCards;
 
         public Player()
         {
@@ -25,7 +25,7 @@ namespace Domain
             _game = game;
         }
 
-        public virtual bool TryTakeNewCard()
+        public bool TryTakeNewCard()
         {
             var card = _game.GiveNewCard();
             var result = TryMoveCardNextStatus(card);
@@ -37,7 +37,7 @@ namespace Domain
             return result;                
         }
 
-        public virtual bool TryUnblockCard()
+        public bool TryUnblockCard()
         {
             var card = TakeBlockedCard();
             var result = card != null;
@@ -50,11 +50,14 @@ namespace Domain
             return result;
         }
 
-        public void Toss(ICoin coin)
+        public virtual CoinResult TossCoin()
         {
-            var coinResult = coin.Toss();
+            return new Coin().Toss();
+        }
 
-            if (coinResult == CoinResult.Head)
+        public void Toss()
+        {
+            if (TossCoin() == CoinResult.Head)
             {
                 BlockCard();
                 TryTakeNewCard();
@@ -81,7 +84,7 @@ namespace Domain
             _game.HelpOtherPlayer();
         }
 
-        public virtual void BlockCard()
+        public void BlockCard()
         {
             var card = TakeCardReadyForAction();
 
@@ -91,7 +94,7 @@ namespace Domain
             }
         }
 
-        public virtual bool TryMoveCardNextStatus(ICard card)
+        public bool TryMoveCardNextStatus(ICard card)
         {
             var result = card != null && card.TryMoveNextStatus();
 
