@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Board.cs" />
     <Compile Include="Coin.cs" />
     <Compile Include="Exceptions\CardStatusException.cs" />
     <Compile Include="Exceptions\NullPlayerException.cs" />
@@ -58,7 +57,6 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameBuilder.cs" />
     <Compile Include="Interfaces\IGame.cs" />
-    <Compile Include="Interfaces\IBoard.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\ICoin.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />

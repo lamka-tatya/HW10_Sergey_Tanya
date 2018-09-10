@@ -93,7 +93,7 @@ namespace Domain
 
         public virtual bool TryMoveCardNextStatus(ICard card)
         {
-            var result = card != null && card.TryMoveNextStatus();
+            var result = card != null && _game.TryMoveNextStatus(card);
 
             if (result && (card.Status == Status.Done))
             {

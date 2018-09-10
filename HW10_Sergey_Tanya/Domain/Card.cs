@@ -6,35 +6,18 @@ namespace Domain
 {
     internal class Card : ICard
     {
-        private IBoard _board;
-
-        public Status Status { get; private set; }
+        public Status Status { get; set; }
 
         public Guid PlayerId { get; private set; }
 
         public bool IsBlocked { get; private set; }
 
-        public Card(IBoard board)
+        public Card()
         {
-            _board = board ?? throw new NullBoardException();
             Status = Status.New;
         }
 
-        public bool TryMoveNextStatus()
-        {
-            if (Status == Status.Done)
-            {
-                throw new CardStatusException();
-            }
-
-            if(!_board.WipLimitIsReached(Status.Next()))
-            {
-                Status = Status.Next();
-                return true;
-            }
-
-            return false;
-        }
+        
 
         public void AssignTo(IPlayer player)
         {

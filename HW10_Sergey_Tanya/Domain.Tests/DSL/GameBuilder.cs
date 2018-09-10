@@ -6,7 +6,6 @@ namespace Domain.Tests.DSL
 {
     internal class GameBuilder
     {
-        private Mock<IBoard> _board = null;
         private Mock<IWipLimit> _wipLimit = null;
         private uint _wipLimitInt = 10;
         private Mock<ICoin> _coin = new Mock<ICoin>();
@@ -40,9 +39,6 @@ namespace Domain.Tests.DSL
 
         public GameBuilder With(ICard card)
         {
-            _board = new Mock<IBoard>();
-            _board.Setup(b => b.GiveNewCard()).Returns(card);
-
             return this;
         }
 
@@ -76,18 +72,7 @@ namespace Domain.Tests.DSL
         {
             var wipLimit = _wipLimit != null ? _wipLimit.Object : new WipLimit(_wipLimitInt);
 
-            IBoard board = null;
-            if (_board != null)
-            {
-                _board.Setup(x => x.WipLimit).Returns(wipLimit);
-                board = _board.Object;
-            }
-            else
-            {
-                board = new Board(wipLimit);
-            }
-
-            var game = new Game(board, _coin.Object);
+            var game = new Game(wipLimit, _coin.Object);
 
             foreach (var player in _players)
             {

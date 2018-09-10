@@ -18,5 +18,7 @@ namespace Domain
         void HelpOtherPlayer();
 
         void PlayRound();
+
+        bool TryMoveNextStatus(ICard card);
     }
 }

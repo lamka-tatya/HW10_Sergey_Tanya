@@ -4,13 +4,11 @@ namespace Domain.Interfaces
 {
     internal interface ICard
     {
-        Status Status { get; }
+        Status Status { get; set; }
 
         bool IsBlocked { get; }
 
         Guid PlayerId { get; }
-
-        bool TryMoveNextStatus();
 
         void AssignTo(IPlayer player);
 

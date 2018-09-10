@@ -11,7 +11,7 @@
 
         public GameCreator(uint wipLimit)
         {
-            _game = new Game(new Board(new WipLimit(wipLimit)), new Coin());
+            _game = new Game(new WipLimit(wipLimit), new Coin());
         }
 
         public GameCreator WithPlayers(int playerCount)
