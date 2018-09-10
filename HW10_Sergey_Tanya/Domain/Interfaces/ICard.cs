@@ -10,7 +10,7 @@ namespace Domain.Interfaces
 
         Guid PlayerId { get; }
 
-        void AssignTo(IPlayer player);
+        void AssignTo(Guid playerId);
 
         void Block();
 

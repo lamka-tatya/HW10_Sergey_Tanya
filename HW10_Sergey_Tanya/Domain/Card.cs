@@ -17,11 +17,9 @@ namespace Domain
             Status = Status.New;
         }
 
-        
-
-        public void AssignTo(IPlayer player)
+        public void AssignTo(Guid playerId)
         {
-            PlayerId = player.Id;
+            PlayerId = playerId;
         }
 
         public void Block()

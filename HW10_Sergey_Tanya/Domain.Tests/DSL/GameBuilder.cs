@@ -72,7 +72,7 @@ namespace Domain.Tests.DSL
         {
             var wipLimit = _wipLimit != null ? _wipLimit.Object : new WipLimit(_wipLimitInt);
 
-            var game = new Game(wipLimit, _coin.Object);
+            var game = new Game(wipLimit);
 
             foreach (var player in _players)
             {

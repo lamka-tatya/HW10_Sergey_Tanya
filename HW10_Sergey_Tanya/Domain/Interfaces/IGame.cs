@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Domain
@@ -13,12 +14,16 @@ namespace Domain
 
         int CardsCount(Status status);
 
-        ICard GiveNewCard();
-
         void HelpOtherPlayer();
 
         void PlayRound();
 
-        bool TryMoveNextStatus(ICard card);
+        bool TryTakeNewCard(Guid playerId);
+
+        bool TryUnblockCard(Guid playerId);
+
+        bool TryMoveCardNextStatus(ICard card);
+
+        void BlockCard(Guid playerId);
     }
 }

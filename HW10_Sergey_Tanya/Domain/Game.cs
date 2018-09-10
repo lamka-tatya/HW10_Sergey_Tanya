@@ -9,33 +9,18 @@ namespace Domain
     internal class Game : IGame
     {
         private IList<IPlayer> _players = new List<IPlayer>();
-        private ICoin _coin;
         private IList<ICard> _cards;
 
         public IWipLimit WipLimit { get; }
-
 
         public IEnumerable<ICard> DoneCards => this.CardsThat(Status.Done);
 
         public IEnumerable<ICard> WorkCards => this.CardsThat(Status.InWork);
 
-        public Game(IWipLimit wipLimit, ICoin coin)
+        public Game(IWipLimit wipLimit)
         {
-            _coin = coin ?? throw new NullCoinException();
             _cards = new List<ICard>();
             WipLimit = wipLimit;
-        }
-
-        public ICard GiveNewCard()
-        {
-            var card = new Card();
-            _cards.Add(card);
-            return card;
-        }
-
-        public IEnumerable<ICard> CardsThat(Status status)
-        {
-            return _cards.Where(x => x.Status == status);
         }
 
         public bool WipLimitIsReached(Status status)
@@ -55,8 +40,7 @@ namespace Domain
                 throw new NullPlayerException();
             }
 
-            player.JoinGame(this);
-            player.TryTakeNewCard();
+            this.TryTakeNewCard(player.Id);
 
             _players.Add(player);
         }
@@ -65,7 +49,29 @@ namespace Domain
         {
             foreach (var player in _players)
             {
-                player.Toss(_coin);
+                var coinResult = player.TossCoin();
+                var playerId = player.Id;
+
+                if (coinResult == CoinResult.Head)
+                {
+                    BlockCard(playerId);
+                    TryTakeNewCard(playerId);
+                }
+                else
+                {
+                    var card = TakeCardReadyForAction(playerId);
+
+                    if (TryMoveCardNextStatus(card) ||
+                        TryTakeNewCard(playerId) ||
+                        TryUnblockCard(playerId))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        HelpOtherPlayer();
+                    }
+                }
             }
         }
 
@@ -81,7 +87,7 @@ namespace Domain
                 var cardToMove = this.CardsThat(status).FirstOrDefault(x => !x.IsBlocked);
                 var cardToUnBlock = this.CardsThat(status).FirstOrDefault(x => x.IsBlocked);
 
-                if (cardToMove != null && GetPlayerById(cardToMove.PlayerId).TryMoveCardNextStatus(cardToMove))
+                if (cardToMove != null && this.TryMoveCardNextStatus(cardToMove))
                 {
                     return;
                 }
@@ -93,8 +99,27 @@ namespace Domain
             }
         }
 
-        public bool TryMoveNextStatus(ICard card)
+        public virtual bool TryTakeNewCard(Guid playerId)
         {
+            var card = new Card();
+            var result = this.TryMoveCardNextStatus(card);
+
+            if (result)
+            {
+                card.AssignTo(playerId);
+                _cards.Add(card);
+            }
+
+            return result;
+        }
+
+        public virtual bool TryMoveCardNextStatus(ICard card)
+        {
+            if (card == null)
+            {
+                return false;
+            }
+       
             if (card.Status == Status.Done)
             {
                 throw new CardStatusException();
@@ -109,11 +134,47 @@ namespace Domain
             return false;
         }
 
+        
 
 
-        private IPlayer GetPlayerById(Guid playerId)
+        public virtual bool TryUnblockCard(Guid playerId)
         {
-            return _players.FirstOrDefault(p => p.Id == playerId);
+            var card = TakeBlockedCard(playerId);
+            var result = card != null;
+
+            if (result)
+            {
+                card.UnBlock();
+            }
+
+            return result;
+        }
+
+
+        public virtual void BlockCard(Guid playerId)
+        {
+            var card = TakeCardReadyForAction(playerId);
+
+            if (card != null)
+            {
+                card.Block();
+            }
+        }
+
+        private IEnumerable<ICard> CardsThat(Status status)
+        {
+            return _cards.Where(x => x.Status == status);
+        }
+
+
+        private ICard TakeCardReadyForAction(Guid playerId)
+        {
+            return _cards.FirstOrDefault(x => x.PlayerId == playerId && x.Status != Status.Done && !x.IsBlocked);
+        }
+
+        private ICard TakeBlockedCard(Guid playerId)
+        {
+            return _cards.FirstOrDefault(x => x.PlayerId == playerId && x.Status != Status.Done && x.IsBlocked);
         }
     }
 }
