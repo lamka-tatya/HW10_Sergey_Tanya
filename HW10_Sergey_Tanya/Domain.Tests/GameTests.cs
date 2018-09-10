@@ -20,18 +20,6 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void GameWithoutBoard_CanNotBeCreated()
-        {
-            Assert.Throws<NullBoardException>(() => new Game(null, new Coin()));
-        }
-
-        [Fact]
-        public void GameWithoutCoin_CanNotBeCreated()
-        {
-            Assert.Throws<NullCoinException>(() => new Game(new Board(new WipLimit(1)), null));
-        }
-
-        [Fact]
         public void GameShouldHaveTwoDoneCards_WhenCoinResultIsTails_AndTwoPlayersInGame_AndWipLimitIsOne()
         {
             var game = Builder
