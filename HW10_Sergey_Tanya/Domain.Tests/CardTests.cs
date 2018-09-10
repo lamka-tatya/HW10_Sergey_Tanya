@@ -11,11 +11,11 @@ namespace Domain.Tests
         [Fact]
         public void CardsPlayerIdShouldBeEqualsPlayersId_WhenGameCreatedWithTheOnlyOnePlayer()
         {
-            var player = Builder.CreatePlayer.Please();
+            var player = Builder.CreatePlayer.MockPlease();
             var game = Builder.CreateGame.With(player).Please();
             var card = game.WorkCards.First();
 
-            Assert.Equal(player.Id, card.PlayerId);
+            Assert.Equal(player.Object.Id, card.PlayerId);
         }
 
         [Fact]
@@ -29,15 +29,14 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void CardShoudMoveNext_WhenCoinResultIsTails()
+        public void CardShoudBeInTesting_WhenCoinResultIsTails()
         {
             var card = new Card();
             var game = Builder.CreateGame.WithSomePlayer().With(card).WithTailsCoin().Please();
-            var prevStatus = card.Status;
-
+ 
             game.PlayRound();
 
-            Assert.Equal(prevStatus.Next(), card.Status);
+            Assert.Equal(Status.Testing, card.Status);
         }
 
         //[Fact]

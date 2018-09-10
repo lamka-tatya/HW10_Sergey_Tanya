@@ -25,5 +25,7 @@ namespace Domain
         bool TryMoveCardNextStatus(ICard card);
 
         void BlockCard(Guid playerId);
+
+        ICard GenerateNewCard();
     }
 }

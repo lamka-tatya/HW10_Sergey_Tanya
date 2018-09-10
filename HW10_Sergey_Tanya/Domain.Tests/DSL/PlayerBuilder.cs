@@ -6,7 +6,7 @@ namespace Domain.Tests.DSL
 {
     internal class PlayerBuilder
     {
-        private Mock<Player> _player = null;
+        private Mock<IPlayer> _player = null;
 
         public PlayerBuilder()
         {
@@ -26,9 +26,9 @@ namespace Domain.Tests.DSL
         //    return this;
         //}
 
-        public Mock<Player> MockPlease()
+        public Mock<IPlayer> MockPlease()
         {
-            return _player ?? new Mock<Player>();
+            return _player ?? new Mock<IPlayer>();
         }
 
         public IPlayer Please()

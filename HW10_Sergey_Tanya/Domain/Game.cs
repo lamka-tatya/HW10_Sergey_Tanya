@@ -23,7 +23,7 @@ namespace Domain
             WipLimit = wipLimit;
         }
 
-        public bool WipLimitIsReached(Status status)
+        public virtual bool WipLimitIsReached(Status status)
         {
             if (status == Status.Done)
             {
@@ -40,7 +40,7 @@ namespace Domain
                 throw new NullPlayerException();
             }
 
-            this.TryTakeNewCard(player.Id);
+            TryTakeNewCard(player.Id);
 
             _players.Add(player);
         }
@@ -99,10 +99,15 @@ namespace Domain
             }
         }
 
-        public virtual bool TryTakeNewCard(Guid playerId)
+        public virtual ICard GenerateNewCard()
         {
-            var card = new Card();
-            var result = this.TryMoveCardNextStatus(card);
+            return new Card();
+        }
+
+        public bool TryTakeNewCard(Guid playerId)
+        {
+            var card = GenerateNewCard();
+            var result = TryMoveCardNextStatus(card);
 
             if (result)
             {
@@ -113,7 +118,7 @@ namespace Domain
             return result;
         }
 
-        public virtual bool TryMoveCardNextStatus(ICard card)
+        public bool TryMoveCardNextStatus(ICard card)
         {
             if (card == null)
             {
@@ -125,7 +130,7 @@ namespace Domain
                 throw new CardStatusException();
             }
 
-            if (!this.WipLimitIsReached(card.Status.Next()))
+            if (!WipLimitIsReached(card.Status.Next()))
             {
                 card.Status = card.Status.Next();
                 return true;
@@ -133,9 +138,6 @@ namespace Domain
 
             return false;
         }
-
-        
-
 
         public virtual bool TryUnblockCard(Guid playerId)
         {
