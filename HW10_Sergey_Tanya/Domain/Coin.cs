@@ -5,7 +5,7 @@ namespace Domain
 {
     internal class Coin : ICoin
     {
-        private Random rnd = new Random();
+        private static Random rnd = new Random();
 
         public CoinResult Toss()
         {
