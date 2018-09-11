@@ -78,7 +78,7 @@ namespace Domain.Tests.DSL
 
         public Game Please()
         {
-            var wipLimit = _wipLimit != null ? _wipLimit.Object : new WipLimit(_wipLimitInt);
+            var wipLimit = _wipLimit != null ? _wipLimit.Object : Builder.CreateWipLimit.WithLimit(_wipLimitInt).Please();
             var game = new Game(wipLimit);
             Mock<Game> gameMock = null;
 

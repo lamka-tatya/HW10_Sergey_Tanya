@@ -36,10 +36,9 @@ namespace Domain.Tests
 
             Assert.Equal(Status.Testing, card.Status);
         }
-
-
+        
         [Fact]
-        public void ShouldNotBeInWorkStatus_WhenInWorkWipLimitIsReached()
+        public void CardShouldNotBeInWorkStatus_WhenInWorkWipLimitIsReached()
         {
             var card = Builder.CreateCard.Please();
             var game = Builder.CreateGame.WithSomePlayer().With(card).WithReachedWipLimit().Please();
