@@ -77,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DSL\AssertThat.cs" />
     <Compile Include="DSL\Extensions.cs" />
     <Compile Include="DSL\WipLimitBuilder.cs" />
     <Compile Include="WipLimitTests.cs" />
@@ -86,7 +87,6 @@
     <Compile Include="DSL\GameBuilder.cs" />
     <Compile Include="DSL\PlayerBuilder.cs" />
     <Compile Include="GameTests.cs" />
-    <Compile Include="PlayerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

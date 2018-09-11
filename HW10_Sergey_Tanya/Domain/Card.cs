@@ -22,7 +22,7 @@ namespace Domain
             Status = Status.Next();
         }
 
-        public void AssignTo(Guid playerId)
+        public virtual void AssignTo(Guid playerId)
         {
             PlayerId = playerId;
         }
