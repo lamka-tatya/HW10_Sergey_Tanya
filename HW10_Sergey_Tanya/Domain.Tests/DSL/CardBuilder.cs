@@ -20,6 +20,5 @@ namespace Domain.Tests.DSL
         {
             return _card;
         }
-
     }
 }

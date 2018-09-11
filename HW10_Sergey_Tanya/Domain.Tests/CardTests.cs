@@ -1,6 +1,4 @@
-﻿using Domain.Extensions;
-using Domain.Tests.DSL;
-using System;
+﻿using Domain.Tests.DSL;
 using System.Linq;
 using Xunit;
 
@@ -31,40 +29,22 @@ namespace Domain.Tests
         [Fact]
         public void CardShoudBeInTesting_WhenCoinResultIsTails()
         {
-            var card = new Card();
+            var card = Builder.CreateCard.Please();
             var game = Builder.CreateGame.WithSomePlayer().With(card).WithTailsCoin().Please();
- 
+
             game.PlayRound();
 
             Assert.Equal(Status.Testing, card.Status);
         }
 
-       
+
         [Fact]
         public void ShouldNotBeInWorkStatus_WhenInWorkWipLimitIsReached()
         {
-            var card = new Card();
+            var card = Builder.CreateCard.Please();
             var game = Builder.CreateGame.WithSomePlayer().With(card).WithReachedWipLimit().Please();
-            
+
             Assert.Equal(Status.New, card.Status);
         }
-
-        
-
-        //[Fact]
-        //public void ShouldCanMoveCardInDoneStatus_WhenWipLimitIsReached()
-        //{
-        //    var board = Builder.CreateBoard.WithWipLimit((uint)1)
-        //                                   .And()
-        //                                   .WithCardInDoneStatus()
-        //                                   .And()
-        //                                   .WithCardInTestStatus()
-        //                                   .Please();
-        //    var card = board.CardsThat(Status.Testing).First();
-
-        //    card.TryMoveNextStatus();
-
-        //    Assert.Equal(Status.Done, card.Status);
-        //}
     }
 }

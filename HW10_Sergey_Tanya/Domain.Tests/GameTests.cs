@@ -93,7 +93,7 @@ namespace Domain.Tests
         [Fact]
         public void GameCanNotMoveCardStatus_WhenItsStatusIsDone()
         {
-            var card = new Card();
+            var card = Builder.CreateCard.Please();
             var game = Builder.CreateGame.WithSomePlayer().With(card).Please();
 
             for (int i = 0; i < 2; i++)
@@ -112,6 +112,20 @@ namespace Domain.Tests
             game.TryMoveCardNextStatus(inTestCard);
 
             Assert.False(game.TryMoveCardNextStatus(Builder.CreateCard.In(Status.InWork).Please()));
+        }
+
+        [Fact]
+        public void GameShouldCanMoveCardInDoneStatus_WhenWipLimitIsReached()
+        {
+            var cardInDone = Builder.CreateCard.Please();
+            var game = Builder.CreateGame.WithSomePlayer().WithWipLimit(1).With(cardInDone).Please();
+            game.TryMoveCardNextStatus(cardInDone);
+            game.TryMoveCardNextStatus(cardInDone);
+            var cardInTest = Builder.CreateCard.In(Status.Testing).Please();
+
+            game.TryMoveCardNextStatus(cardInTest);
+
+            Assert.Equal(Status.Done, cardInTest.Status);
         }
     }
 }
