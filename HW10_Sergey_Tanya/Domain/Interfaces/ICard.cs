@@ -4,7 +4,7 @@ namespace Domain.Interfaces
 {
     internal interface ICard
     {
-        Status Status { get; set; }
+        Status Status { get; }
 
         bool IsBlocked { get; }
 
@@ -15,6 +15,8 @@ namespace Domain.Interfaces
         void Block();
 
         void UnBlock();
+
+        void NextStatus();
     }
 
 }

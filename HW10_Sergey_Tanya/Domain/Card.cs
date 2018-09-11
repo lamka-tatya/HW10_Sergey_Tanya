@@ -6,7 +6,7 @@ namespace Domain
 {
     internal class Card : ICard
     {
-        public Status Status { get; set; }
+        public Status Status { get; private set; }
 
         public Guid PlayerId { get; private set; }
 
@@ -15,6 +15,11 @@ namespace Domain
         public Card()
         {
             Status = Status.New;
+        }
+
+        public void NextStatus()
+        {
+            Status = Status.Next();
         }
 
         public void AssignTo(Guid playerId)

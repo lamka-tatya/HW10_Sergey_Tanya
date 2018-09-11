@@ -13,9 +13,7 @@ namespace Domain
 
         public IWipLimit WipLimit { get; }
 
-        public IEnumerable<ICard> DoneCards => this.CardsThat(Status.Done);
-
-        public IEnumerable<ICard> WorkCards => this.CardsThat(Status.InWork);
+        public IEnumerable<ICard> WorkCards => CardsThat(Status.InWork);
 
         public Game(IWipLimit wipLimit)
         {
@@ -43,6 +41,46 @@ namespace Domain
             TryTakeNewCard(player.Id);
 
             _players.Add(player);
+        }
+
+        public bool TryTakeNewCard(Guid playerId)
+        {
+            var card = GenerateNewCard();
+            var result = TryMoveCardNextStatus(card);
+
+            if (result)
+            {
+                card.AssignTo(playerId);
+                _cards.Add(card);
+            }
+
+            return result;
+        }
+
+        public virtual ICard GenerateNewCard()
+        {
+            return new Card();
+        }
+
+        public bool TryMoveCardNextStatus(ICard card)
+        {
+            if (card == null)
+            {
+                return false;
+            }
+
+            if (card.Status == Status.Done)
+            {
+                throw new CardStatusException();
+            }
+
+            if (!WipLimitIsReached(card.Status.Next()))
+            {
+                card.NextStatus();
+                return true;
+            }
+
+            return false;
         }
 
         public void PlayRound()
@@ -75,6 +113,29 @@ namespace Domain
             }
         }
 
+        public virtual void BlockCard(Guid playerId)
+        {
+            var card = TakeCardReadyForAction(playerId);
+
+            if (card != null)
+            {
+                card.Block();
+            }
+        }
+
+        public virtual bool TryUnblockCard(Guid playerId)
+        {
+            var card = TakeBlockedCard(playerId);
+            var result = card != null;
+
+            if (result)
+            {
+                card.UnBlock();
+            }
+
+            return result;
+        }
+
         public int CardsCount(Status status)
         {
             return this.CardsThat(status).Count();
@@ -99,75 +160,10 @@ namespace Domain
             }
         }
 
-        public virtual ICard GenerateNewCard()
-        {
-            return new Card();
-        }
-
-        public bool TryTakeNewCard(Guid playerId)
-        {
-            var card = GenerateNewCard();
-            var result = TryMoveCardNextStatus(card);
-
-            if (result)
-            {
-                card.AssignTo(playerId);
-                _cards.Add(card);
-            }
-
-            return result;
-        }
-
-        public bool TryMoveCardNextStatus(ICard card)
-        {
-            if (card == null)
-            {
-                return false;
-            }
-       
-            if (card.Status == Status.Done)
-            {
-                throw new CardStatusException();
-            }
-
-            if (!WipLimitIsReached(card.Status.Next()))
-            {
-                card.Status = card.Status.Next();
-                return true;
-            }
-
-            return false;
-        }
-
-        public virtual bool TryUnblockCard(Guid playerId)
-        {
-            var card = TakeBlockedCard(playerId);
-            var result = card != null;
-
-            if (result)
-            {
-                card.UnBlock();
-            }
-
-            return result;
-        }
-
-
-        public virtual void BlockCard(Guid playerId)
-        {
-            var card = TakeCardReadyForAction(playerId);
-
-            if (card != null)
-            {
-                card.Block();
-            }
-        }
-
         private IEnumerable<ICard> CardsThat(Status status)
         {
             return _cards.Where(x => x.Status == status);
         }
-
 
         private ICard TakeCardReadyForAction(Guid playerId)
         {

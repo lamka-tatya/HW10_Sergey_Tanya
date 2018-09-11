@@ -6,8 +6,6 @@ namespace Domain
 {
     internal interface IGame
     {
-        IEnumerable<ICard> DoneCards { get; }
-
         IEnumerable<ICard> WorkCards { get; }
 
         void AddPlayer(IPlayer player);
