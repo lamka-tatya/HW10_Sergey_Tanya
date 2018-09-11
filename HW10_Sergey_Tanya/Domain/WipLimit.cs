@@ -11,7 +11,7 @@
 
         public bool IsReached(uint count)
         {
-            return _limit != 0 && _limit == count;
+            return _limit != 0 && count >= _limit;
         }
     }
 }

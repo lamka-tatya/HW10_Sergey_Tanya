@@ -7,5 +7,7 @@
         public static PlayerBuilder CreatePlayer => new PlayerBuilder();
 
         public static CardBuilder CreateCard => new CardBuilder();
+
+        public static WipLimitBuilder CreateWipLimit => new WipLimitBuilder();
     }
 }

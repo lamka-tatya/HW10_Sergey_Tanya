@@ -77,6 +77,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DSL\WipLimitBuilder.cs" />
+    <Compile Include="WipLimitTests.cs" />
     <Compile Include="CardTests.cs" />
     <Compile Include="DSL\Builder.cs" />
     <Compile Include="DSL\CardBuilder.cs" />
