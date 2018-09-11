@@ -103,7 +103,7 @@ namespace Domain
                         TryTakeNewCard(playerId) ||
                         TryUnblockCard(playerId))
                     {
-                        return;
+                        continue;
                     }
                     else
                     {
