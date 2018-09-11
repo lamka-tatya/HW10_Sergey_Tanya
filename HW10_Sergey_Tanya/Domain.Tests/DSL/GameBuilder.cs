@@ -10,6 +10,7 @@ namespace Domain.Tests.DSL
         private uint _wipLimitInt = 10;
         private List<Mock<IPlayer>> _players = new List<Mock<IPlayer>>();
         private ICard _card = null;
+        private bool _reachedWipLimit = false;
 
         public GameBuilder()
         {
@@ -52,8 +53,8 @@ namespace Domain.Tests.DSL
 
         public GameBuilder WithReachedWipLimit()
         {
-            _wipLimit = new Mock<IWipLimit>();
-            _wipLimit.Setup(w => w.IsReached(It.IsAny<uint>())).Returns(true);
+            _reachedWipLimit = true;
+
             return this;
         }
 
@@ -79,14 +80,25 @@ namespace Domain.Tests.DSL
         {
             var wipLimit = _wipLimit != null ? _wipLimit.Object : new WipLimit(_wipLimitInt);
             var game = new Game(wipLimit);
+            Mock<Game> gameMock = null;
 
             if (_card != null)
             {
-                var gameMock = new Mock<Game>(wipLimit);
+                gameMock = new Mock<Game>(wipLimit);
                 gameMock.Setup(x => x.GenerateNewCard()).Returns(_card);
+            }
 
+            if (_reachedWipLimit)
+            {
+                gameMock = gameMock ?? new Mock<Game>(It.IsAny<WipLimit>());
+                gameMock.Setup(x => x.WipLimitIsReached(It.IsAny<Status>())).Returns(true);
+            }
+
+            if (gameMock != null)
+            {
                 game = gameMock.Object;
             }
+            
 
             foreach (var player in _players)
             {
