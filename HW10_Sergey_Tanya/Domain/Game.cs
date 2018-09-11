@@ -141,7 +141,7 @@ namespace Domain
             return this.CardsThat(status).Count();
         }
 
-        public void HelpOtherPlayer()
+        public virtual void HelpOtherPlayer()
         {
             foreach (var status in new[] { Status.Testing, Status.InWork })
             {

@@ -76,6 +76,29 @@ namespace Domain.Tests.DSL
             return this;
         }
 
+        public Mock<Game> MockPlease()
+        {
+            var wipLimit = _wipLimit != null ? _wipLimit.Object : Builder.CreateWipLimit.WithLimit(_wipLimitInt).Please();
+            Mock<Game> gameMock = new Mock<Game>(wipLimit);
+
+            if (_card != null)
+            {
+                gameMock.Setup(x => x.GenerateNewCard()).Returns(_card);
+            }
+
+            if (_reachedWipLimit)
+            {
+                gameMock.Setup(x => x.WipLimitIsReached(It.IsAny<Status>())).Returns(true);
+            }
+
+            foreach (var player in _players)
+            {
+                gameMock.Object.AddPlayer(player.Object);
+            }
+
+            return gameMock;
+        }
+
         public Game Please()
         {
             var wipLimit = _wipLimit != null ? _wipLimit.Object : Builder.CreateWipLimit.WithLimit(_wipLimitInt).Please();

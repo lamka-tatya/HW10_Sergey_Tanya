@@ -1,4 +1,5 @@
 ﻿using Domain.Tests.DSL;
+using Moq;
 using System;
 using System.Linq;
 using Xunit;
@@ -141,84 +142,86 @@ namespace Domain.Tests
             AssertThat.PlayerHaveTwoCardsInWork(game, player.Object);
         }
 
-        //[Fact]
-        //public void PlayerShouldTryTakeNewCard_WhenCoinResultIsHead()
-        //{
-        //    var playerMock = Builder.CreatePlayer.MockPlease();
-        //    var game = Builder.CreateGame.With(playerMock.Object)
-        //                                 .And()
-        //                                 .WithHeadCoin().Please();
+        [Fact]
+        public void GameShouldGiveOneMoreCardToPlayer_WhenCoinResultIsHead()
+        {
+            var player = Builder.CreatePlayer.MockPlease();
+            var game = Builder.CreateGame.With(player).And().WithHeadCoin().Please();
 
-        //    game.PlayRound();
+            game.PlayRound();
 
-        //    playerMock.Verify(p => p.TryTakeNewCard(), Times.Exactly(2));
-        //}
+            AssertThat.PlayerHaveTwoCardsInWork(game, player.Object);
+        }
 
-        //[Fact]
-        //public void PlayerShouldNotTakeNewCard_WhenInWorkWipLimitIsReached()
-        //{
-        //    var player = Builder.CreatePlayer.Please();
-        //    var game = Builder.CreateGame.With(player).And().WithReachedWipLimit().Please();
+        [Fact]
+        public void GameShouldNotGiveNewCard_WhenInWorkWipLimitIsReached()
+        {
+            var game = Builder.CreateGame.WithReachedWipLimit().Please();
 
-        //    var newCardResult = player.TryTakeNewCard();
+            var newCardResult = game.TryTakeNewCard(Builder.CreatePlayer.MockPlease().Object.Id);
 
-        //    Assert.False(newCardResult);
-        //}
+            Assert.False(newCardResult);
+        }
 
-        //[Fact]
-        //public void PlayerShouldTryUnblockCard_WhenCoinResultIsTails_AndWhenWhenWipLimitIsReached_AndHasNoCardsToMoveNextStatus()
-        //{
-        //    var playerMock = Builder.CreatePlayer.WithBlockedCards().MockPlease();
-        //    var game = Builder.CreateGame
-        //        .With(playerMock.Object)
-        //        .And()
-        //        .WithTailsCoin()
-        //        .And()
-        //        .WithReachedWipLimit().Please();
+        [Fact]
+        public void GameShouldUnblockCard_WhenCoinResultIsTails_AndWhenWhenWipLimitIsReached_AndHasNoCardsToMoveNextStatus()
+        {
+            var game = Builder.CreateGame.WithSomePlayer().And().WithTailsCoin().And().WithWipLimit(1).Please();
+            var cardToBlock = game.WorkCards.First();
+            cardToBlock.Block();
 
-        //    game.PlayRound();
+            game.PlayRound();
 
-        //    playerMock.Verify(p => p.TryUnblockCard(), Times.Once);
-        //}
+            Assert.False(cardToBlock.IsBlocked);
+        }
 
-        //[Fact]
-        //public void PlayerShouldHelpOtherPlayer_WhenCoinResultIsTails_AndWhenWhenWipLimitIsReached_AndHasNoCardsToMoveNextStatus_AndHasNoCardsToUnlock()
-        //{
-        //    var playerMock = Builder.CreatePlayer.MockPlease();
-        //    var game = Builder.CreateGame
-        //        .With(playerMock.Object)
-        //        .And()
-        //        .WithTailsCoin()
-        //        .And()
-        //        .WithReachedWipLimit().Please();
+        [Fact]
+        public void GameShouldHelpOtherPlayer_WhenCoinResultIsTails_AndWhenWhenWipLimitIsReached_AndHasNoCardsToMoveNextStatus_AndHasNoCardsToUnlock()
+        {
+            var gameMock = Builder.CreateGame
+                .WithSomePlayer()
+                .And()
+                .WithTailsCoin()
+                .And()
+                .WithReachedWipLimit().MockPlease();
 
-        //    game.PlayRound();
+            gameMock.Object.PlayRound();
 
-        //    playerMock.Verify(p => p.HelpOtherPlayer(), Times.Once);
-        //}
+            gameMock.Verify(p => p.HelpOtherPlayer(), Times.Once);
+        }
 
-        //[Fact]
-        //public void PlayerShouldTryBlockCard_WhenCoinResultIsHead()
-        //{
-        //    var playerMock = Builder.CreatePlayer.MockPlease();
-        //    var game = Builder.CreateGame.With(playerMock.Object)
-        //                                 .And()
-        //                                 .WithHeadCoin().Please();
+        [Fact]
+        public void GameShouldMoveTestCardInDone_WhenHelpOtherPlayer()
+        {
+            var game = Builder.CreateGame.WithSomePlayer().And().WithTailsCoin().Please();
+            var cardInTest = game.WorkCards.First();
+            game.TryMoveCardNextStatus(cardInTest);
 
-        //    game.PlayRound();
+            game.HelpOtherPlayer();
 
-        //    playerMock.Verify(p => p.BlockCard(), Times.Once);
-        //}
+            Assert.Equal(Status.Done, cardInTest.Status);
+        }
 
-        //[Fact]
-        //public void PlayerShouldTryMoveCardNextStatus_WhenCoinResultIsTails()
-        //{
-        //    var playerMock = Builder.CreatePlayer.MockPlease();
-        //    var game = Builder.CreateGame.With(playerMock.Object).And().WithTailsCoin().Please();
+        [Fact]
+        public void GameShouldUnblockBlockedCard_WhenHelpOtherPlayer_AndNoCardsInTest()
+        {
+            var game = Builder.CreateGame.WithSomePlayer().And().Please();
+            var cardToBlock = game.WorkCards.First();
+            cardToBlock.Block();
 
-        //    game.PlayRound();
+            game.HelpOtherPlayer();
 
-        //    playerMock.Verify(p => p.TryMoveCardNextStatus(It.IsAny<ICard>()), Times.Once);
-        //}
+            Assert.False(cardToBlock.IsBlocked);
+        }
+
+        [Fact]
+        public void GameShouldBlockCard_WhenCoinResultIsHead()
+        {
+            var gameMock = Builder.CreateGame.WithSomePlayer().And().WithHeadCoin().MockPlease();
+
+            gameMock.Object.PlayRound();
+
+            gameMock.Verify(p => p.BlockCard(It.IsAny<Guid>()), Times.Once);
+        }
     }
 }
