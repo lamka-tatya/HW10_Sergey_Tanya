@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="CardTests.cs" />
     <Compile Include="DSL\Builder.cs" />
+    <Compile Include="DSL\CardBuilder.cs" />
     <Compile Include="DSL\GameBuilder.cs" />
     <Compile Include="DSL\PlayerBuilder.cs" />
     <Compile Include="GameTests.cs" />

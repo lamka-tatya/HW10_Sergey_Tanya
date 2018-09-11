@@ -89,5 +89,29 @@ namespace Domain.Tests
         {
             Assert.Throws<NullPlayerException>(() => Builder.CreateGame.Please().AddPlayer(null));
         }
-    }   
+
+        [Fact]
+        public void GameCanNotMoveCardStatus_WhenItsStatusIsDone()
+        {
+            var card = new Card();
+            var game = Builder.CreateGame.WithSomePlayer().With(card).Please();
+
+            for (int i = 0; i < 2; i++)
+            {
+                game.TryMoveCardNextStatus(card);
+            }
+
+            Assert.Throws<CardStatusException>(() => game.TryMoveCardNextStatus(card));
+        }
+
+        [Fact]
+        public void GameCanNotMoveCardInTestStatus_WhenItsStatusIsInWork_AndWhenTestWipLimitIsReached()
+        {
+            var game = Builder.CreateGame.WithSomePlayer().WithWipLimit(1).Please();
+            var inTestCard = game.WorkCards.First();
+            game.TryMoveCardNextStatus(inTestCard);
+
+            Assert.False(game.TryMoveCardNextStatus(Builder.CreateCard.In(Status.InWork).Please()));
+        }
+    }
 }

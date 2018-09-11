@@ -39,22 +39,9 @@ namespace Domain.Tests
             Assert.Equal(Status.Testing, card.Status);
         }
 
+       
         [Fact]
-        public void CardCanNotMoveStatus_WhenItsStatusIsDone()
-        {
-            var card = new Card();
-            var game = Builder.CreateGame.WithSomePlayer().With(card).Please();
-
-            for (int i = 0; i < 2; i++)
-            {
-                game.TryMoveCardNextStatus(card);
-            }
-
-            Assert.Throws<CardStatusException>(() => game.TryMoveCardNextStatus(card));
-        }
-
-        [Fact]
-        public void ShouldNotMoveInWorkStatus_WhenInWorkWipLimitIsReached()
+        public void ShouldNotBeInWorkStatus_WhenInWorkWipLimitIsReached()
         {
             var card = new Card();
             var game = Builder.CreateGame.WithSomePlayer().With(card).WithReachedWipLimit().Please();
@@ -62,16 +49,7 @@ namespace Domain.Tests
             Assert.Equal(Status.New, card.Status);
         }
 
-        //[Fact]
-        //public void ShouldNotMoveInTestStatus_WhenTestWipLimitIsReached()
-        //{
-        //    var board = Builder.CreateBoard.WithWipLimit((uint)1).WithCardInTestStatus().Please();
-        //    var inWorkCard = board.GiveNewCard();
-
-        //    inWorkCard.TryMoveNextStatus();
-
-        //    Assert.False(inWorkCard.TryMoveNextStatus());
-        //}
+        
 
         //[Fact]
         //public void ShouldCanMoveCardInDoneStatus_WhenWipLimitIsReached()
